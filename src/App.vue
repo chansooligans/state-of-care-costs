@@ -21,7 +21,7 @@ const activeGlossaryTerm = ref(glossaryTerms[0].term)
 const glossarySearch = ref('')
 const floatingGlossarySearch = ref('')
 const activeFloatingGlossaryTerm = ref(glossaryTerms[0].term)
-const isFloatingGlossaryMinimized = ref(false)
+const isFloatingGlossaryMinimized = ref(true)
 const showSectionNav = ref(false)
 const sectionNavRevealPoint = 360
 let sectionNavScrollFrame = null
@@ -777,7 +777,7 @@ onBeforeUnmount(() => {
       <div class="floating-glossary-header">
         <div>
           <p class="eyebrow">Glossary</p>
-          <h2 id="floating-glossary-title">Jargon lookup</h2>
+          <h2 id="floating-glossary-title">Term guide</h2>
         </div>
         <div class="floating-glossary-actions">
           <span>{{ glossaryTerms.length }} terms</span>
@@ -792,11 +792,7 @@ onBeforeUnmount(() => {
         </div>
       </div>
 
-      <label
-        v-show="!isFloatingGlossaryMinimized"
-        class="floating-glossary-search"
-        for="floating-glossary-search"
-      >
+      <label class="floating-glossary-search" for="floating-glossary-search">
         <span>Look up a term</span>
         <input
           id="floating-glossary-search"
@@ -804,6 +800,7 @@ onBeforeUnmount(() => {
           type="search"
           autocomplete="off"
           placeholder="Try PBM, QPA, site of care..."
+          @focus="isFloatingGlossaryMinimized = false"
         />
       </label>
 
