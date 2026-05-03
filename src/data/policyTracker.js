@@ -932,6 +932,161 @@ export const fundamentals = [
   },
 ]
 
+export const revenueCycleGuide = {
+  title: 'Revenue cycle field guide',
+  deck:
+    'How care becomes documentation, documentation becomes claims, claims become payment, and payment leaves a patient bill behind.',
+  thesis:
+    'The revenue cycle is not one billing step at the end of care. It is a chain of handoffs between patients, providers, EHRs, coders, clearinghouses, payers, contracts, and billing teams. Every handoff can change what gets approved, what gets paid, what gets denied, and what the patient sees.',
+  steps: [
+    {
+      phase: '01',
+      title: 'Searching for care',
+      actor: 'Patient, plan, provider directory, employer tool',
+      detail:
+        'The process often starts before scheduling: a patient looks for a clinician, facility, or shoppable service; checks network status; compares location and availability; and may look at a plan cost estimator, hospital price file, or cash price.',
+      artifacts: ['provider directory', 'benefit design', 'network status', 'published prices'],
+      friction:
+        'The patient may see a price signal without knowing whether every clinician, facility fee, lab, imaging order, or drug will be part of the final episode.',
+    },
+    {
+      phase: '02',
+      title: 'Scheduling, registration, and eligibility',
+      actor: 'Front desk, scheduling team, registration, eligibility systems',
+      detail:
+        'Once care is scheduled, the provider collects demographics, insurance information, plan identifiers, referral details, and sometimes payment estimates. Eligibility and benefits checks confirm whether coverage appears active and what broad cost-sharing rules apply.',
+      artifacts: ['eligibility transaction', 'referral', 'benefits check', 'estimate'],
+      friction:
+        'Eligibility is not a guarantee of payment. It tells the provider the plan looks active, but it does not prove medical necessity, authorization, coding, or contract terms will support payment.',
+    },
+    {
+      phase: '03',
+      title: 'Prior authorization and medical necessity',
+      actor: 'Provider office, payer, utilization management vendor',
+      detail:
+        'For some drugs, imaging, surgeries, admissions, post-acute care, or specialty services, the provider may need payer approval before care. Prior authorization asks whether the plan agrees the service is covered and medically necessary under its rules.',
+      artifacts: ['prior authorization request', 'clinical notes', 'coverage policy', 'approval or denial'],
+      friction:
+        'Authorization can delay care, narrow the approved service, expire before the visit, or fail to match the exact code submitted later on the claim.',
+    },
+    {
+      phase: '04',
+      title: 'Care delivery',
+      actor: 'Clinicians, facility, labs, imaging, pharmacy, ancillary teams',
+      detail:
+        'The patient receives care. The clinical team orders services, performs procedures, administers drugs, uses supplies, and may involve multiple entities: physician group, facility, anesthesiology, pathology, radiology, laboratory, or pharmacy.',
+      artifacts: ['orders', 'medications', 'supplies', 'site-of-care record'],
+      friction:
+        'The patient experience may feel like one visit, but billing can split into professional, facility, drug, lab, imaging, and ancillary claims.',
+    },
+    {
+      phase: '05',
+      title: 'Clinical documentation in the EHR',
+      actor: 'Clinician, scribe, EHR, clinical documentation integrity team',
+      detail:
+        'The EHR record captures symptoms, diagnoses, orders, procedures, time, findings, medical decision-making, discharge status, and follow-up plans. This documentation becomes the evidence used for coding, authorization support, claims, audits, and appeals.',
+      artifacts: ['EHR note', 'diagnosis', 'orders', 'clinical documentation'],
+      friction:
+        'If documentation is incomplete, inconsistent, or not specific enough, the claim may code differently, pay differently, or be denied even when care was delivered.',
+    },
+    {
+      phase: '06',
+      title: 'Coding and charge capture',
+      actor: 'Coder, billing team, charge capture system, chargemaster',
+      detail:
+        'Coders and billing systems translate the clinical record into billing codes: diagnosis codes, procedure codes, modifiers, units, revenue codes, DRGs, APCs, or NDCs. Charge capture makes sure billable services, supplies, drugs, and facility resources are recorded.',
+      artifacts: ['ICD-10', 'CPT/HCPCS', 'modifier', 'DRG/APC', 'chargemaster'],
+      friction:
+        'Small coding differences can change payment, patient cost sharing, medical necessity edits, prior authorization matching, and whether a service looks comparable in transparency data.',
+    },
+    {
+      phase: '07',
+      title: 'Claim creation and clearinghouse edits',
+      actor: 'Billing system, claim scrubber, clearinghouse',
+      detail:
+        'The provider creates an electronic claim, usually an 837 transaction, and sends it through edits before it reaches the payer. Claim scrubbers and clearinghouses check format, required fields, payer rules, coding conflicts, and missing identifiers.',
+      artifacts: ['837 claim', 'claim scrubber', 'clearinghouse', 'attachments'],
+      friction:
+        'Some problems are fixed before payer submission; others pass through and become denials, requests for records, underpayments, or patient-billing delays.',
+    },
+    {
+      phase: '08',
+      title: 'Payer adjudication',
+      actor: 'Payer claims system, benefit rules, contract engine',
+      detail:
+        'The payer adjudicates the claim by checking eligibility, benefits, network status, authorization, coding edits, bundling rules, coverage policies, coordination of benefits, and provider contract terms. The payer determines the allowed amount and patient responsibility.',
+      artifacts: ['adjudication', 'allowed amount', 'denial code', 'EOB', '835 remittance'],
+      friction:
+        'Adjudication can pay, deny, pend, bundle, downcode, request records, apply deductible, or assign coinsurance. The patient usually sees only the simplified EOB after many hidden rules have run.',
+    },
+    {
+      phase: '09',
+      title: 'Provider payment, denial work, and appeals',
+      actor: 'Revenue cycle team, payer, contract management, denial team',
+      detail:
+        'After adjudication, the provider posts payer payment and remittance details, works denials, submits corrected claims or appeals, checks contract underpayments, and resolves payer takebacks or secondary billing.',
+      artifacts: ['ERA', 'appeal', 'corrected claim', 'contract variance'],
+      friction:
+        'A claim may cycle several times before final payment. That back-office work affects provider cash flow and can delay or change what the patient is billed.',
+    },
+    {
+      phase: '10',
+      title: 'Patient billing and collections',
+      actor: 'Billing office, patient, payment processor, financial assistance team',
+      detail:
+        'Once payer processing is posted, the patient receives a statement for deductible, copay, coinsurance, noncovered services, self-pay balances, or amounts adjusted by surprise-billing and financial-assistance rules.',
+      artifacts: ['patient statement', 'payment plan', 'financial assistance', 'collections policy'],
+      friction:
+        'The patient bill can arrive weeks or months after care, and the patient may need to reconcile the provider statement against the EOB, estimate, network status, and legal protections.',
+    },
+    {
+      phase: '11',
+      title: 'Contracting, negotiation, and the feedback loop',
+      actor: 'Provider contracting, payer network team, employers, PBMs, consultants',
+      detail:
+        'Behind the scenes, plans and providers negotiate fee schedules, value-based terms, network participation, drug rebates, prior authorization rules, and payment policies. Claims data then feeds the next round of negotiations, audits, transparency analysis, and benefit design.',
+      artifacts: ['fee schedule', 'network contract', 'claims analytics', 'rebate arrangement'],
+      friction:
+        'The negotiated rate is only one layer. Actual cost depends on utilization, coding intensity, site of care, denials, rebates, benefit design, and patient steering.',
+    },
+  ],
+  artifacts: [
+    {
+      name: 'EHR',
+      detail:
+        'The clinical source of truth for diagnoses, orders, notes, procedures, drugs, and medical necessity.',
+    },
+    {
+      name: '837 claim',
+      detail:
+        'The electronic claim file providers send to payers, carrying codes, units, providers, dates, charges, and patient/plan identifiers.',
+    },
+    {
+      name: '835 remittance / ERA',
+      detail:
+        'The electronic response from the payer explaining payment, adjustments, denials, and patient responsibility.',
+    },
+    {
+      name: 'EOB',
+      detail:
+        'The patient-facing payer explanation of how the claim processed. It is not a bill, but it previews what the patient may owe.',
+    },
+    {
+      name: 'Patient statement',
+      detail:
+        'The provider bill after payer processing, adjustments, financial assistance, and patient responsibility are posted.',
+    },
+  ],
+  watchpoints: [
+    'Eligibility does not guarantee payment.',
+    'An estimate is not the same as an adjudicated claim.',
+    'One clinical visit can create several claims.',
+    'Prior authorization approval may not match the final submitted code.',
+    'Negotiated rates do not automatically predict patient liability.',
+    'Denials and appeals can change timing, payment, and patient billing.',
+  ],
+}
+
 export const conceptMap = [
   {
     title: 'Publication requirements',
@@ -1494,6 +1649,168 @@ const glossaryTermBase = [
     meaning:
       'Transparency in Coverage. Often used as shorthand for health plan price transparency rules and files.',
   },
+  {
+    category: 'Revenue cycle',
+    term: '837 claim',
+    meaning:
+      'The standard electronic health care claim transaction used to send a billable encounter from a provider or billing system to a payer. It carries patient identifiers, provider identifiers, dates of service, diagnosis and procedure codes, units, charges, and other data needed for payer processing.',
+  },
+  {
+    category: 'Revenue cycle',
+    term: '835 remittance',
+    meaning:
+      'The standard electronic payment and remittance transaction a payer sends back after claim processing. It explains what was paid, denied, adjusted, shifted to patient responsibility, or still requires additional action.',
+  },
+  {
+    category: 'Revenue cycle',
+    term: 'Adjudication',
+    meaning:
+      'The payer process for deciding how a claim should be handled under the member benefit, provider contract, coverage policy, coding rules, authorization status, and coordination-of-benefits rules.',
+  },
+  {
+    category: 'Revenue cycle',
+    term: 'Benefit design',
+    meaning:
+      'The structure of an insurance plan, including deductibles, copays, coinsurance, covered services, network rules, tiers, limits, and prior authorization requirements. Benefit design turns a negotiated price into a patient-specific out-of-pocket amount.',
+  },
+  {
+    category: 'Revenue cycle',
+    term: 'Charge capture',
+    meaning:
+      'The process of recording billable services, supplies, drugs, facility resources, and professional work after care occurs so they can be coded and included on a claim.',
+  },
+  {
+    category: 'Revenue cycle',
+    term: 'Chargemaster',
+    meaning:
+      'A hospital master list of billable items, services, codes, and gross charges. It is a pricing and billing input, not the same as a negotiated rate or the amount most insured patients ultimately owe.',
+  },
+  {
+    category: 'Revenue cycle',
+    term: 'Claim',
+    meaning:
+      'A request for payment submitted to a payer after care is delivered. A claim converts the clinical encounter into billing codes, charges, provider identifiers, plan information, and patient responsibility logic.',
+  },
+  {
+    category: 'Revenue cycle',
+    term: 'Claim scrubber',
+    meaning:
+      'Software that checks a claim before submission for missing fields, coding conflicts, payer-specific edits, formatting problems, or other issues that could trigger rejection or denial.',
+  },
+  {
+    category: 'Revenue cycle',
+    term: 'Clearinghouse',
+    meaning:
+      'An intermediary that routes electronic claims and other transactions between providers and payers, often checking format and payer rules before forwarding the transaction.',
+  },
+  {
+    category: 'Revenue cycle',
+    term: 'Clinical documentation',
+    meaning:
+      'The clinical record of what happened during care: symptoms, diagnoses, orders, tests, procedures, medications, time, findings, medical decision-making, discharge status, and follow-up plans. It is the evidentiary base for coding, claims, audits, denials, and appeals.',
+  },
+  {
+    category: 'Revenue cycle',
+    term: 'Denial',
+    meaning:
+      'A payer decision not to pay all or part of a claim as submitted. Denials can involve coverage, coding, medical necessity, authorization, eligibility, timely filing, duplicate claims, or missing records.',
+  },
+  {
+    category: 'Revenue cycle',
+    term: 'Diagnosis',
+    meaning:
+      'The clinical condition or reason for care documented in the record and often represented on claims using ICD-10 diagnosis codes. Diagnosis affects coverage rules, medical necessity, risk adjustment, and payment logic.',
+  },
+  {
+    category: 'Revenue cycle',
+    term: 'DRG/APC',
+    meaning:
+      'Payment grouping systems used in Medicare and often referenced in hospital billing. DRGs group inpatient stays, while APCs group many hospital outpatient services for payment.',
+  },
+  {
+    category: 'Revenue cycle',
+    term: 'EHR',
+    meaning:
+      'Electronic Health Record. The digital clinical record used by providers to document care, enter orders, review results, manage workflows, and support billing, coding, prior authorization, quality reporting, and care coordination.',
+  },
+  {
+    category: 'Revenue cycle',
+    term: 'Eligibility',
+    meaning:
+      'The process of checking whether a patient appears to have active coverage and what broad plan rules may apply at a point in time. Eligibility checks help registration, but they do not guarantee payment.',
+  },
+  {
+    category: 'Revenue cycle',
+    term: 'EOB',
+    meaning:
+      'Explanation of Benefits. The payer notice sent to a patient after a claim is processed, explaining how the claim was handled, what the plan paid, what was adjusted, and what the patient may owe. It is not the provider bill.',
+  },
+  {
+    category: 'Revenue cycle',
+    term: 'ERA',
+    meaning:
+      'Electronic Remittance Advice. The electronic remittance information a payer sends to a provider after claim processing, commonly associated with the 835 transaction.',
+  },
+  {
+    category: 'Revenue cycle',
+    term: 'Fee schedule',
+    meaning:
+      'A table of payment amounts or rates tied to services, codes, providers, or contracts. Fee schedules can be public, like many Medicare schedules, or negotiated privately between plans and providers.',
+  },
+  {
+    category: 'Revenue cycle',
+    term: 'ICD-10',
+    meaning:
+      'The diagnosis coding system used to report diseases, injuries, signs, symptoms, and reasons for care on claims and in administrative data.',
+  },
+  {
+    category: 'Revenue cycle',
+    term: 'Medical necessity',
+    meaning:
+      'A coverage concept asking whether a service is clinically appropriate under payer rules for the patient condition, setting, timing, and documentation. Medical necessity can affect prior authorization, claim payment, and appeals.',
+  },
+  {
+    category: 'Revenue cycle',
+    term: 'Modifier',
+    meaning:
+      'A code appended to a procedure or service code to explain a billing circumstance such as laterality, distinct services, professional versus technical components, or unusual complexity.',
+  },
+  {
+    category: 'Revenue cycle',
+    term: 'Patient responsibility',
+    meaning:
+      'The portion of an allowed amount or billed amount assigned to the patient after plan rules are applied, including deductibles, copays, coinsurance, noncovered services, or self-pay balances.',
+  },
+  {
+    category: 'Revenue cycle',
+    term: 'Patient statement',
+    meaning:
+      'The provider bill sent after payer processing, adjustments, financial assistance, and patient responsibility are posted. It is the document the patient is usually being asked to pay.',
+  },
+  {
+    category: 'Revenue cycle',
+    term: 'Prior authorization',
+    meaning:
+      'A payer approval process required before certain services, drugs, procedures, admissions, or post-acute care. It asks whether the payer agrees the service is covered and medically necessary under plan rules before care happens.',
+  },
+  {
+    category: 'Revenue cycle',
+    term: 'Revenue cycle',
+    meaning:
+      'The full administrative and financial chain that turns patient access, care delivery, documentation, coding, claims, payer adjudication, payment posting, denials, and patient billing into revenue for the provider and cost exposure for the patient or plan.',
+  },
+  {
+    category: 'Revenue cycle',
+    term: 'Revenue code',
+    meaning:
+      'A billing code used mainly on institutional claims to identify the department or type of service, such as emergency room, pharmacy, laboratory, operating room, or room and board.',
+  },
+  {
+    category: 'Revenue cycle',
+    term: 'Utilization management',
+    meaning:
+      'Plan or payer processes that review whether services are appropriate, covered, efficient, or medically necessary. Prior authorization, concurrent review, and step therapy are common utilization-management tools.',
+  },
 ]
 
 const glossaryMeaningByTerm = {
@@ -1832,6 +2149,60 @@ const glossaryContextByTerm = {
     'In practice, TiC is the commercial-plan counterpart to hospital price transparency, but its files are massive and require technical translation before most users benefit.',
   TiC:
     'In practice, TiC shorthand usually points to payer machine-readable files, in-network rates, out-of-network allowed amounts, and consumer cost-comparison requirements.',
+  '837 claim':
+    'In practice, the 837 is where a visit becomes a formal payment request. If identifiers, codes, modifiers, units, diagnosis links, or attachments are wrong, the payer may reject, deny, or delay payment before the patient ever sees a bill.',
+  '835 remittance':
+    'In practice, the 835 is the provider-side explanation of how the payer processed the claim. Billing teams use it to post payments, identify denials, calculate patient responsibility, and decide whether to appeal or correct the claim.',
+  Adjudication:
+    'In practice, adjudication is the hidden rule engine between care and the patient bill. It combines contract pricing, benefit design, coverage policy, authorization status, edits, and accumulated deductible information.',
+  'Benefit design':
+    'In practice, benefit design is why two patients can face different bills for the same negotiated rate. Deductibles, copays, coinsurance, plan tier, network status, and out-of-pocket maximums determine the patient share.',
+  'Charge capture':
+    'In practice, charge capture is a major source of variation. A service that was clinically delivered but not captured may never be billed, while a captured supply, drug, or facility resource can add a separate line to the claim.',
+  Chargemaster:
+    'In practice, the chargemaster shapes gross charges and internal billing logic, but insured payment usually flows through negotiated rates, fee schedules, payer edits, and benefit design rather than the gross charge alone.',
+  Claim:
+    'In practice, a claim is the administrative version of care. It may split one patient encounter into professional, facility, lab, imaging, pharmacy, anesthesia, pathology, or ancillary payment requests.',
+  'Claim scrubber':
+    'In practice, claim scrubbers try to catch problems early, but they are only as good as their rules. Some issues still pass through and become payer denials, records requests, underpayments, or delayed patient statements.',
+  Clearinghouse:
+    'In practice, clearinghouses are part of the transaction plumbing. Patients rarely see them, but they can affect whether claims reach the payer cleanly and whether errors are caught before submission.',
+  'Clinical documentation':
+    'In practice, documentation is payment evidence as well as clinical memory. Missing specificity can change coding, weaken medical-necessity support, or make an appeal harder even when care was appropriate.',
+  Denial:
+    'In practice, denials are not always final. Providers may correct, appeal, submit records, or negotiate, but that work takes time and can delay payment posting and patient billing.',
+  Diagnosis:
+    'In practice, diagnosis codes help explain why care was needed. A diagnosis that is too vague, missing, or unsupported by documentation can trigger medical-necessity denials or payment changes.',
+  'DRG/APC':
+    'In practice, DRGs and APCs show how raw services can be grouped for payment. They matter when comparing hospital prices because the payment unit may be an episode or group rather than a single visible service.',
+  EHR:
+    'In practice, the EHR sits upstream of the bill. It stores the clinical facts, orders, and documentation that coders and billing systems later translate into claims and authorization support.',
+  Eligibility:
+    'In practice, eligibility checks are useful but limited. Active coverage at scheduling does not guarantee that the service is covered, authorized, medically necessary, correctly coded, or payable under the contract.',
+  EOB:
+    'In practice, patients should compare the EOB with the provider statement. The EOB explains payer processing; the provider statement is the payment request from the billing office.',
+  ERA:
+    'In practice, ERA data lets providers post payer decisions at scale. It is the operational bridge between payer adjudication and provider billing follow-up.',
+  'Fee schedule':
+    'In practice, fee schedules are one way payment becomes predictable, but they may be modified by contract terms, bundling rules, site of care, modifiers, quality arrangements, or payer policy.',
+  'ICD-10':
+    'In practice, ICD-10 codes tie the claim to the clinical reason for care. They influence medical necessity, risk adjustment, quality measurement, reporting, and benefit rules.',
+  'Medical necessity':
+    'In practice, medical necessity is one of the most important phrases in denials and authorizations. It depends on payer policy, clinical documentation, diagnosis, setting, and timing.',
+  Modifier:
+    'In practice, modifiers can change payment or clarify why a service should be treated separately. Missing or incorrect modifiers can create denials, underpayments, or misleading price comparisons.',
+  'Patient responsibility':
+    'In practice, patient responsibility is usually calculated after payer processing, not at the moment of care. It can change when claims are corrected, appealed, reprocessed, or adjusted under legal protections.',
+  'Patient statement':
+    'In practice, the statement is the document that often triggers confusion. Patients may need to reconcile it against the EOB, estimate, cash price, financial-assistance rules, or surprise-billing protections.',
+  'Prior authorization':
+    'In practice, prior authorization approval is not a blank check. The final claim still has to match the approved service, diagnosis, timing, provider, setting, and payer policy.',
+  'Revenue cycle':
+    'In practice, the revenue cycle is where policy, contracts, clinical documentation, software, and patient finances collide. Price transparency is weaker if people only see prices and not the process that turns care into bills.',
+  'Revenue code':
+    'In practice, revenue codes help explain facility billing lines. They matter when a patient receives both a professional bill and a facility bill for what felt like one visit.',
+  'Utilization management':
+    'In practice, utilization management is a payer cost-control layer. It can reduce unnecessary care, but it can also create administrative burden, delays, denials, and confusion about what is actually approved.',
 }
 
 export const glossaryTerms = glossaryTermBase.map((term) => ({

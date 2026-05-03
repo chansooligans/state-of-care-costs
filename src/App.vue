@@ -8,6 +8,7 @@ import {
   legislationItems,
   newsItems,
   refreshDate,
+  revenueCycleGuide,
   sourceGroups,
   tabs,
 } from './data/policyTracker'
@@ -18,6 +19,7 @@ const activeSourceType = ref('All')
 const activeLegislationId = ref(legislationItems[0].id)
 const activeMechanismTitle = ref(conceptMap[0].title)
 const activeGlossaryTerm = ref(glossaryTerms[0].term)
+const showRevenueCycleGuide = ref(false)
 const glossarySearch = ref('')
 const floatingGlossarySearch = ref('')
 const activeFloatingGlossaryTerm = ref(glossaryTerms[0].term)
@@ -265,11 +267,22 @@ onBeforeUnmount(() => {
       <div class="masthead-copy">
         <p class="eyebrow">Federal scope only</p>
         <h1 id="page-title">State of Care Costs</h1>
-        <p>
+        <p class="masthead-dek">
           A working desk for people already following the issue: latest federal
           movement on pricing data, patient billing protections, drug costs,
           commercial plan transparency, and the statutes behind them.
         </p>
+        <div class="desk-actions">
+          <button
+            type="button"
+            class="text-command"
+            :aria-expanded="showRevenueCycleGuide"
+            aria-controls="revenue-cycle-guide"
+            @click="showRevenueCycleGuide = !showRevenueCycleGuide"
+          >
+            {{ showRevenueCycleGuide ? 'Hide revenue cycle guide' : 'Open revenue cycle guide' }}
+          </button>
+        </div>
       </div>
 
       <div class="scope-brief" aria-label="Tracker scope">
@@ -298,6 +311,90 @@ onBeforeUnmount(() => {
         <span>{{ tab.dek }}</span>
       </button>
     </nav>
+
+    <section
+      v-if="showRevenueCycleGuide"
+      id="revenue-cycle-guide"
+      class="revenue-cycle-guide"
+      aria-labelledby="revenue-cycle-title"
+    >
+      <div class="revenue-cycle-hero">
+        <div>
+          <p class="eyebrow">Field guide</p>
+          <h2 id="revenue-cycle-title">{{ revenueCycleGuide.title }}</h2>
+          <p>
+            <GlossaryText :text="revenueCycleGuide.deck" @define="openGlossaryPopup" />
+          </p>
+        </div>
+        <button
+          type="button"
+          aria-label="Close revenue cycle guide"
+          @click="showRevenueCycleGuide = false"
+        >
+          x
+        </button>
+      </div>
+
+      <div class="revenue-cycle-thesis">
+        <strong>Core idea</strong>
+        <p>
+          <GlossaryText :text="revenueCycleGuide.thesis" @define="openGlossaryPopup" />
+        </p>
+      </div>
+
+      <div class="revenue-cycle-layout">
+        <ol class="revenue-cycle-flow">
+          <li v-for="step in revenueCycleGuide.steps" :key="step.phase">
+            <span class="phase-mark">{{ step.phase }}</span>
+            <div class="cycle-step-body">
+              <p class="step-actor">{{ step.actor }}</p>
+              <h3>
+                <GlossaryText :text="step.title" @define="openGlossaryPopup" />
+              </h3>
+              <p>
+                <GlossaryText :text="step.detail" @define="openGlossaryPopup" />
+              </p>
+              <div class="cycle-artifact-row" aria-label="Revenue cycle artifacts">
+                <span v-for="artifact in step.artifacts" :key="artifact">
+                  <GlossaryText :text="artifact" @define="openGlossaryPopup" />
+                </span>
+              </div>
+              <div class="cycle-friction">
+                <strong>Where confusion enters</strong>
+                <p>
+                  <GlossaryText :text="step.friction" @define="openGlossaryPopup" />
+                </p>
+              </div>
+            </div>
+          </li>
+        </ol>
+
+        <aside class="cycle-sidebars" aria-label="Revenue cycle reference">
+          <section>
+            <p class="eyebrow">Data objects</p>
+            <div class="cycle-object-list">
+              <article v-for="item in revenueCycleGuide.artifacts" :key="item.name">
+                <h3>
+                  <GlossaryText :text="item.name" @define="openGlossaryPopup" />
+                </h3>
+                <p>
+                  <GlossaryText :text="item.detail" @define="openGlossaryPopup" />
+                </p>
+              </article>
+            </div>
+          </section>
+
+          <section>
+            <p class="eyebrow">Watchpoints</p>
+            <ul>
+              <li v-for="watchpoint in revenueCycleGuide.watchpoints" :key="watchpoint">
+                <GlossaryText :text="watchpoint" @define="openGlossaryPopup" />
+              </li>
+            </ul>
+          </section>
+        </aside>
+      </div>
+    </section>
 
     <section v-if="activeTab === 'watch'" class="tab-panel" aria-label="Latest federal watch">
       <section class="news-board" aria-labelledby="news-title">

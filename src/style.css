@@ -72,7 +72,8 @@ dd {
 .concept-board,
 .timeline-board,
 .glossary-board,
-.reference-section {
+.reference-section,
+.revenue-cycle-guide {
   border: 1px solid var(--line-strong);
   background: var(--paper);
 }
@@ -116,12 +117,35 @@ h1 {
   font-weight: 700;
 }
 
-.masthead-copy p:last-child {
+.masthead-dek {
   max-width: 720px;
   margin-top: 18px;
   color: var(--muted);
   font-size: 1.02rem;
   line-height: 1.56;
+}
+
+.desk-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 24px;
+}
+
+.text-command {
+  border: 1px solid var(--line-strong);
+  background: var(--paper);
+  padding: 10px 12px;
+  color: var(--ink);
+  font-size: 0.82rem;
+  font-weight: 900;
+  text-align: left;
+  text-transform: uppercase;
+}
+
+.text-command:hover {
+  background: var(--red);
+  color: var(--white);
 }
 
 .scope-brief {
@@ -176,7 +200,8 @@ h1 {
 .concept-board,
 .timeline-board,
 .glossary-board,
-.reference-section {
+.reference-section,
+.revenue-cycle-guide {
   margin-top: 14px;
 }
 
@@ -227,6 +252,214 @@ h1 {
 
 .top-tabs button.active span {
   color: rgba(255, 253, 247, 0.72);
+}
+
+.revenue-cycle-guide {
+  background: var(--paper);
+}
+
+.revenue-cycle-hero {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: 20px;
+  border-bottom: 1px solid var(--line-strong);
+  background: #faf7ef;
+  padding: 26px 30px;
+}
+
+.revenue-cycle-hero h2 {
+  margin-top: 8px;
+  font-size: 2.35rem;
+  line-height: 1.02;
+}
+
+.revenue-cycle-hero p:not(.eyebrow) {
+  max-width: 780px;
+  margin-top: 12px;
+  color: var(--muted);
+  line-height: 1.55;
+}
+
+.revenue-cycle-hero > button {
+  display: grid;
+  width: 36px;
+  height: 36px;
+  place-items: center;
+  border: 1px solid var(--line-strong);
+  background: var(--paper);
+  color: var(--ink);
+  font-size: 1rem;
+  font-weight: 900;
+  line-height: 1;
+  text-transform: uppercase;
+}
+
+.revenue-cycle-hero > button:hover {
+  background: var(--red);
+  color: var(--white);
+}
+
+.revenue-cycle-thesis {
+  display: grid;
+  grid-template-columns: 170px minmax(0, 1fr);
+  gap: 24px;
+  border-bottom: 1px solid var(--line);
+  padding: 22px 30px;
+}
+
+.revenue-cycle-thesis strong {
+  color: var(--red);
+  font-size: 0.76rem;
+  font-weight: 900;
+  text-transform: uppercase;
+}
+
+.revenue-cycle-thesis p {
+  max-width: 920px;
+  font-family: Georgia, Cambria, Times New Roman, serif;
+  font-size: 1.2rem;
+  line-height: 1.38;
+}
+
+.revenue-cycle-layout {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 340px;
+}
+
+.revenue-cycle-flow {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.revenue-cycle-flow li {
+  display: grid;
+  grid-template-columns: 78px minmax(0, 1fr);
+  border-bottom: 1px solid var(--line);
+}
+
+.revenue-cycle-flow li:last-child {
+  border-bottom: 0;
+}
+
+.phase-mark {
+  border-right: 1px solid var(--line);
+  padding: 22px 18px;
+  color: var(--red);
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+  font-weight: 900;
+}
+
+.cycle-step-body {
+  padding: 20px 24px;
+}
+
+.step-actor {
+  color: var(--muted);
+  font-size: 0.76rem;
+  font-weight: 900;
+  line-height: 1.3;
+  text-transform: uppercase;
+}
+
+.cycle-step-body h3 {
+  margin-top: 8px;
+  font-size: 1.55rem;
+  line-height: 1.08;
+}
+
+.cycle-step-body > p:not(.step-actor) {
+  max-width: 850px;
+  margin-top: 12px;
+  color: var(--muted);
+  line-height: 1.58;
+}
+
+.cycle-artifact-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-top: 14px;
+}
+
+.cycle-artifact-row span {
+  border: 1px solid var(--line);
+  padding: 4px 8px;
+  color: var(--red);
+  font-size: 0.74rem;
+  font-weight: 900;
+  line-height: 1.25;
+  text-transform: uppercase;
+}
+
+.cycle-friction {
+  max-width: 850px;
+  margin-top: 16px;
+  border-left: 4px solid var(--red);
+  background: #faf7ef;
+  padding: 12px 14px;
+}
+
+.cycle-friction strong {
+  color: var(--red);
+  font-size: 0.72rem;
+  font-weight: 900;
+  text-transform: uppercase;
+}
+
+.cycle-friction p {
+  margin-top: 6px;
+  color: var(--ink);
+  font-family: Georgia, Cambria, Times New Roman, serif;
+  line-height: 1.4;
+}
+
+.cycle-sidebars {
+  border-left: 1px solid var(--line-strong);
+  background: #faf7ef;
+}
+
+.cycle-sidebars section {
+  border-bottom: 1px solid var(--line-strong);
+  padding: 20px;
+}
+
+.cycle-sidebars section:last-child {
+  border-bottom: 0;
+}
+
+.cycle-object-list {
+  margin-top: 8px;
+}
+
+.cycle-object-list article {
+  border-bottom: 1px solid var(--line);
+  padding: 14px 0;
+}
+
+.cycle-object-list article:last-child {
+  border-bottom: 0;
+}
+
+.cycle-object-list h3 {
+  font-size: 1.08rem;
+  line-height: 1.12;
+}
+
+.cycle-object-list p,
+.cycle-sidebars li {
+  margin-top: 8px;
+  color: var(--muted);
+  font-size: 0.92rem;
+  line-height: 1.45;
+}
+
+.cycle-sidebars ul {
+  display: grid;
+  gap: 10px;
+  margin: 14px 0 0;
+  padding-left: 18px;
+  color: var(--muted);
 }
 
 .tab-panel {
@@ -1416,7 +1649,11 @@ input:focus-visible {
   .reference-layout,
   .reference-layout.balanced,
   .source-board,
-  .top-tabs {
+  .top-tabs,
+  .revenue-cycle-hero,
+  .revenue-cycle-thesis,
+  .revenue-cycle-layout,
+  .revenue-cycle-flow li {
     grid-template-columns: 1fr;
   }
 
@@ -1538,6 +1775,17 @@ input:focus-visible {
     position: static;
   }
 
+  .phase-mark {
+    border-right: 0;
+    border-bottom: 1px solid var(--line);
+    padding: 14px 20px;
+  }
+
+  .cycle-sidebars {
+    border-left: 0;
+    border-top: 1px solid var(--line-strong);
+  }
+
 }
 
 @media (max-width: 560px) {
@@ -1558,7 +1806,11 @@ input:focus-visible {
   .source-copy,
   .source-directory a,
   .source-group-heading,
-  .top-tabs button {
+  .top-tabs button,
+  .revenue-cycle-hero,
+  .revenue-cycle-thesis,
+  .cycle-step-body,
+  .cycle-sidebars section {
     padding: 20px;
   }
 
@@ -1573,6 +1825,18 @@ input:focus-visible {
 
   .legislation-detail h3 {
     font-size: 2rem;
+  }
+
+  .revenue-cycle-hero h2 {
+    font-size: 1.9rem;
+  }
+
+  .revenue-cycle-thesis p {
+    font-size: 1.08rem;
+  }
+
+  .cycle-step-body h3 {
+    font-size: 1.38rem;
   }
 
   .fundamental-grid {
