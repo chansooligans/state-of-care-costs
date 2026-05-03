@@ -18,21 +18,6 @@ export const tabs = [
   },
 ]
 
-export const policyLibraryIntro = [
-  {
-    label: 'Start with authority',
-    text: 'First identify whether a policy is a statute, executive order, final rule, proposed rule, guidance, report, or enforcement action.',
-  },
-  {
-    label: 'Separate audience',
-    text: 'A requirement may be built for patients, employers, developers, regulators, plans, providers, or several of them at once.',
-  },
-  {
-    label: 'Track implementation',
-    text: 'The policy story often continues after enactment through rulemaking, guidance, comment periods, litigation, and enforcement.',
-  },
-]
-
 export const watchChannels = [
   {
     name: 'CMS Newsroom',
@@ -105,6 +90,36 @@ export const watchChannels = [
     type: 'Industry',
     focus: 'Hospital-sector position, compliance resources, stakeholder proposals',
     url: 'https://www.aha.org/topics/price-transparency',
+  },
+]
+
+const sourceByName = new Map(watchChannels.map((channel) => [channel.name, channel]))
+
+export const sourceGroups = [
+  {
+    name: 'Primary federal record',
+    note: 'Use these first to confirm whether something actually changed: agency releases, rulemaking dockets, bill text, and oversight work.',
+    channels: [
+      'CMS Newsroom',
+      'HHS Press Room',
+      'Federal Register',
+      'Congress.gov',
+      'DOL EBSA',
+      'FTC Health Care',
+      'HHS OIG',
+    ].map((name) => sourceByName.get(name)).filter(Boolean),
+  },
+  {
+    name: 'Research and reporting',
+    note: 'Use these to understand consequences, data quality, patient impact, and how the policy is being interpreted outside government.',
+    channels: ['KFF Health News', 'Peterson-KFF Tracker', 'AJMC', 'Axios Health']
+      .map((name) => sourceByName.get(name))
+      .filter(Boolean),
+  },
+  {
+    name: 'Stakeholder signal',
+    note: 'Use these to read institutional position, compliance posture, lobbying priorities, and likely implementation friction.',
+    channels: ['AHA'].map((name) => sourceByName.get(name)).filter(Boolean),
   },
 ]
 
@@ -920,155 +935,982 @@ export const fundamentals = [
 export const conceptMap = [
   {
     title: 'Publication requirements',
+    summary:
+      'The disclosure layer: hospitals, plans, and agencies publish rates, charges, or tools that make prices observable.',
     examples: 'Hospital standard charges, plan machine-readable files, consumer cost tools.',
+    audience: 'Patients, employers, researchers, developers, regulators',
+    watchFor:
+      'Whether the files include billing-code specificity, actual-dollar values, update cadence, payer names, and enough context to compare like with like.',
     risk: 'Data exists, but ordinary people cannot interpret it.',
   },
   {
     title: 'Patient protection rules',
+    summary:
+      'The shield layer: federal rules limit when patients can be pulled into surprise out-of-network bills or left without pre-service estimates.',
     examples: 'No Surprises Act, good faith estimates, notice and consent limits.',
+    audience: 'Patients, providers, plans, dispute-resolution entities',
+    watchFor:
+      'Which services are covered, whether consent was valid, how estimates are delivered, and where patient protections stop while payer-provider disputes continue.',
     risk: 'The patient is protected while payment fights continue behind the scenes.',
   },
   {
     title: 'Purchaser leverage',
+    summary:
+      'The buyer-power layer: employers and plan fiduciaries get access to price, claims, quality, fee, and rebate information so they can negotiate harder.',
     examples: 'ERISA fiduciary duties, gag-clause bans, PBM disclosures, claims data.',
+    audience: 'Employers, unions, plan sponsors, benefits consultants, fiduciaries',
+    watchFor:
+      'Whether plan sponsors can actually obtain usable claims data, audit vendors, compare networks, inspect PBM compensation, and act on the findings.',
     risk: 'Employers have duties and data rights but may lack analytic capacity.',
   },
   {
     title: 'Market intervention',
+    summary:
+      'The price-setting or competition layer: federal policy changes incentives directly rather than only publishing information.',
     examples: 'Medicare drug negotiation, FTC PBM enforcement, site-neutral payment.',
+    audience: 'Medicare, regulators, drug manufacturers, PBMs, hospitals, purchasers',
+    watchFor:
+      'Whether the intervention changes net prices, shifts costs elsewhere, triggers litigation, or changes access, networks, utilization, or market concentration.',
     risk: 'Cost reductions can trigger industry pushback, litigation, or access arguments.',
   },
   {
     title: 'Data access infrastructure',
+    summary:
+      'The plumbing layer: standards, APIs, and information-blocking rules determine whether cost and coverage data can move into usable workflows.',
     examples: 'FHIR APIs, prior authorization APIs, information blocking rules.',
+    audience: 'Patients, app developers, EHR vendors, payers, providers',
+    watchFor:
+      'Whether technical standards carry the right fields, whether APIs are reliable, and whether users can connect price data with benefits, networks, and authorization rules.',
     risk: 'Technical compliance can still leave users without actionable context.',
   },
   {
     title: 'Oversight and enforcement',
+    summary:
+      'The accountability layer: agencies audit, penalize, report, settle, and issue guidance so transparency rules do not remain symbolic.',
     examples: 'CMS audits, civil monetary penalties, OIG reviews, FTC consent orders.',
+    audience: 'Regulators, regulated entities, watchdogs, journalists, purchasers',
+    watchFor:
+      'The frequency of audits, size of penalties, corrective-action timelines, public naming, repeat violations, and whether enforcement improves data quality.',
     risk: 'Weak enforcement turns transparency into a paper requirement.',
   },
 ]
 
-export const glossaryTerms = [
+const glossaryTermBase = [
   {
+    category: 'Price data',
     term: 'Allowed amount',
     meaning:
       'The amount a plan allows for a covered service. It often includes both the plan payment and the patient share.',
   },
   {
-    term: 'Charge',
-    meaning:
-      'A list or gross price before discounts or negotiated rates. It is often not what anyone actually pays.',
-  },
-  {
-    term: 'Discounted cash price',
-    meaning:
-      'The price a hospital offers to a patient who pays cash or is treated as self-pay.',
-  },
-  {
-    term: 'Negotiated rate',
-    meaning:
-      'A price agreed to by a provider and payer. Transparency rules often require payer-specific negotiated prices.',
-  },
-  {
-    term: 'Machine-readable file',
-    meaning:
-      'A public file in a structured format intended for automated processing, not casual reading.',
-  },
-  {
-    term: 'Shoppable service',
-    meaning:
-      'A service that can generally be scheduled in advance, such as imaging, labs, or planned procedures.',
-  },
-  {
-    term: 'QPA',
-    meaning:
-      'Qualifying Payment Amount. A No Surprises Act benchmark based generally on median contracted rates for an item or service.',
-  },
-  {
-    term: 'IDR',
-    meaning:
-      'Independent Dispute Resolution. The federal process for certain out-of-network payment disputes under the No Surprises Act.',
-  },
-  {
-    term: 'GFE',
-    meaning:
-      'Good Faith Estimate. An estimate that uninsured or self-pay patients can receive before certain scheduled care.',
-  },
-  {
+    category: 'Patient protections',
     term: 'AEOB',
     meaning:
       'Advanced Explanation of Benefits. A still-important implementation concept for giving insured patients pre-service benefit and cost information.',
   },
   {
-    term: 'PBM',
+    category: 'Insurance programs',
+    term: 'ACA',
     meaning:
-      'Pharmacy Benefit Manager. A drug-benefit intermediary that negotiates rebates, manages formularies, and contracts with pharmacies and plans.',
+      'Affordable Care Act. A 2010 law that created major coverage, marketplace, plan disclosure, rate review, and transparency foundations.',
   },
   {
+    category: 'Data infrastructure',
+    term: 'API',
+    meaning:
+      'Application Programming Interface. A technical connection that lets systems exchange data in a structured way.',
+  },
+  {
+    category: 'Care settings',
+    term: 'ASC',
+    meaning:
+      'Ambulatory Surgical Center. A non-hospital outpatient setting for certain surgical procedures, often central to site-of-care cost comparisons.',
+  },
+  {
+    category: 'Patient protections',
+    term: 'Balance bill',
+    meaning:
+      'A bill for the difference between a provider charge and the amount a plan pays. The No Surprises Act limits many surprise balance bills.',
+  },
+  {
+    category: 'Price data',
+    term: 'Billing code',
+    meaning:
+      'A code used to identify a service, item, diagnosis, or procedure for billing and claims. Price data is hard to use without the right code.',
+  },
+  {
+    category: 'Statutory anchor',
+    term: 'CAA 2021',
+    meaning:
+      'Consolidated Appropriations Act, 2021. The law that includes the No Surprises Act plus broader transparency provisions such as gag-clause and RxDC requirements.',
+  },
+  {
+    category: 'Statutory anchor',
+    term: 'CAA 2026',
+    meaning:
+      'Consolidated Appropriations Act, 2026. Relevant here because DOL says it added ERISA provisions related to pharmacy benefit management services.',
+  },
+  {
+    category: 'Price data',
+    term: 'Cash price',
+    meaning:
+      'The amount a provider may accept from a patient paying directly, outside normal insurance payment.',
+  },
+  {
+    category: 'Agency',
+    term: 'CCIIO',
+    meaning:
+      'Center for Consumer Information and Insurance Oversight, the CMS office that handles many private insurance and marketplace rules.',
+  },
+  {
+    category: 'Price data',
+    term: 'Charge',
+    meaning:
+      'A list or gross price before discounts or negotiated rates. It is often not what anyone actually pays.',
+  },
+  {
+    category: 'Agency',
+    term: 'CMS',
+    meaning:
+      'Centers for Medicare & Medicaid Services. The HHS agency central to Medicare, Medicaid, marketplace, hospital transparency, TiC, and No Surprises implementation.',
+  },
+  {
+    category: 'Rulemaking',
+    term: 'Civil monetary penalty',
+    meaning:
+      'A financial penalty an agency can impose for certain violations, such as some transparency compliance failures.',
+  },
+  {
+    category: 'Rulemaking',
+    term: 'Comment window',
+    meaning:
+      'The period when the public can submit comments on a proposed rule before an agency finalizes policy.',
+  },
+  {
+    category: 'Research quality',
+    term: 'Completeness',
+    meaning:
+      'A data-quality concept: whether files include the expected providers, services, rates, and fields needed to analyze policy or prices.',
+  },
+  {
+    category: 'Congress',
+    term: 'Congress.gov',
+    meaning:
+      'The official federal site for bill text, sponsors, committee activity, amendments, and legislative status.',
+  },
+  {
+    category: 'Price data',
+    term: 'CPT/HCPCS',
+    meaning:
+      'Common procedure and billing code sets often needed to compare prices for medical services, supplies, and procedures.',
+  },
+  {
+    category: 'Statutory anchor',
+    term: 'CREATES Act',
+    meaning:
+      'A 2019 law aimed at helping generic and biosimilar developers obtain samples needed to develop competing products.',
+  },
+  {
+    category: 'Statutory anchor',
+    term: 'Cures Act',
+    meaning:
+      'The 21st Century Cures Act. Relevant here for interoperability, patient data access, APIs, and information blocking.',
+  },
+  {
+    category: 'Research quality',
+    term: 'Data quality',
+    meaning:
+      'A shorthand for whether published transparency data is accurate, complete, standardized, current, and usable.',
+  },
+  {
+    category: 'Price data',
+    term: 'De-identified minimum and maximum negotiated charge',
+    meaning:
+      'Hospital transparency fields showing the lowest and highest negotiated charges across payers without naming the payer.',
+  },
+  {
+    category: 'Price data',
+    term: 'Discounted cash price',
+    meaning:
+      'The price a hospital offers to a patient who pays cash or is treated as self-pay.',
+  },
+  {
+    category: 'Agency',
+    term: 'DOL EBSA',
+    meaning:
+      'Department of Labor Employee Benefits Security Administration, the agency office that oversees many employer health plan and ERISA issues.',
+  },
+  {
+    category: 'Rulemaking',
+    term: 'Enforcement',
+    meaning:
+      'Agency action to monitor compliance and respond to violations, including audits, corrective action plans, penalties, or settlements.',
+  },
+  {
+    category: 'Statutory anchor',
+    term: 'ERISA',
+    meaning:
+      'Employee Retirement Income Security Act. The main federal law governing many employer-sponsored benefit plans, including self-insured health plans.',
+  },
+  {
+    category: 'Rulemaking',
+    term: 'Executive order',
+    meaning:
+      'A presidential directive to federal agencies. It can shape agency priorities but is not the same as a statute enacted by Congress.',
+  },
+  {
+    category: 'Rulemaking',
+    term: 'Fact sheet',
+    meaning:
+      'An agency explainer summarizing a rule, report, or policy action. Useful for scanning, but not a substitute for the legal text.',
+  },
+  {
+    category: 'Care settings',
+    term: 'Facility fee',
+    meaning:
+      'A charge tied to the facility or site of care, often separate from the clinician professional fee.',
+  },
+  {
+    category: 'Rulemaking',
+    term: 'Federal Register',
+    meaning:
+      'The official daily publication for federal rules, proposed rules, notices, and presidential documents.',
+  },
+  {
+    category: 'Rulemaking',
+    term: 'Final rule',
+    meaning:
+      'A completed agency regulation after the rulemaking process. It has legal effect according to its stated effective dates and requirements.',
+  },
+  {
+    category: 'Data infrastructure',
+    term: 'FHIR',
+    meaning:
+      'Fast Healthcare Interoperability Resources. A modern standard used for exchanging health data through APIs.',
+  },
+  {
+    category: 'Drug costs',
+    term: 'Formulary',
+    meaning:
+      'A plan or PBM list of covered drugs, often organized into tiers that affect access, prior authorization, and patient cost sharing.',
+  },
+  {
+    category: 'Agency',
+    term: 'FTC',
+    meaning:
+      'Federal Trade Commission. Relevant here for competition policy, PBM enforcement, and health care market oversight.',
+  },
+  {
+    category: 'Patient protections',
+    term: 'Gag clause',
+    meaning:
+      'A contract term that blocks plans from accessing or sharing price, quality, or claims information. CAA rules prohibit these clauses in many health plan contracts.',
+  },
+  {
+    category: 'Patient protections',
+    term: 'GFE',
+    meaning:
+      'Good Faith Estimate. An estimate that uninsured or self-pay patients can receive before certain scheduled care.',
+  },
+  {
+    category: 'Research quality',
     term: 'Ghost rate',
     meaning:
       'A reported payer rate for a provider-service combination that may be implausible or unlikely to occur in real care.',
   },
   {
-    term: 'Site-neutral payment',
+    category: 'Price data',
+    term: 'Gross charge',
     meaning:
-      'A policy idea that similar services should be paid similarly across settings, such as hospital outpatient departments and physician offices.',
+      'A hospital list price before discounts, negotiated rates, or payer rules. It is often much higher than the amount paid.',
   },
   {
+    category: 'Rulemaking',
+    term: 'Guidance',
+    meaning:
+      'Agency material explaining how it interprets or plans to implement requirements. It is different from a statute or regulation.',
+  },
+  {
+    category: 'Statutory anchor',
+    term: 'HIPAA Administrative Simplification',
+    meaning:
+      'HIPAA provisions governing health care transaction standards, identifiers, and administrative data exchange, not just privacy.',
+  },
+  {
+    category: 'Agency',
+    term: 'HHS OIG',
+    meaning:
+      'HHS Office of Inspector General. An oversight office that audits, investigates, and evaluates HHS programs and agencies.',
+  },
+  {
+    category: 'Care settings',
+    term: 'Hospital outpatient department',
+    meaning:
+      'A hospital-owned outpatient setting. Services there can carry facility fees and different payment rates than physician offices.',
+  },
+  {
+    category: 'Patient protections',
+    term: 'IDR',
+    meaning:
+      'Independent Dispute Resolution. The federal process for certain out-of-network payment disputes under the No Surprises Act.',
+  },
+  {
+    category: 'Data infrastructure',
+    term: 'Information blocking',
+    meaning:
+      'A practice that interferes with lawful access, exchange, or use of electronic health information, unless an exception applies.',
+  },
+  {
+    category: 'Price data',
+    term: 'In-network rate',
+    meaning:
+      'A rate negotiated between a plan and an in-network provider for a covered item or service.',
+  },
+  {
+    category: 'Drug costs',
+    term: 'Inflation rebate',
+    meaning:
+      'A policy requiring drug manufacturers to pay rebates to Medicare when certain prices rise faster than inflation.',
+  },
+  {
+    category: 'Data infrastructure',
+    term: 'Interoperability',
+    meaning:
+      'The ability of systems to exchange and use health information across plans, providers, patients, and apps.',
+  },
+  {
+    category: 'Statutory anchor',
+    term: 'IRA',
+    meaning:
+      'Inflation Reduction Act. Relevant here for Medicare drug negotiation, Part D redesign, insulin caps, and inflation rebates.',
+  },
+  {
+    category: 'Rulemaking',
+    term: 'Litigation signal',
+    meaning:
+      'A lawsuit or court development that could affect how a policy is interpreted, enforced, delayed, or implemented.',
+  },
+  {
+    category: 'Data infrastructure',
+    term: 'Machine-readable file',
+    meaning:
+      'A public file in a structured format intended for automated processing, not casual reading.',
+  },
+  {
+    category: 'Drug costs',
+    term: 'Maximum fair price',
+    meaning:
+      'The Medicare negotiated price for a selected drug under the Inflation Reduction Act negotiation program.',
+  },
+  {
+    category: 'Insurance programs',
+    term: 'Medicaid',
+    meaning:
+      'A joint federal-state health coverage program for eligible low-income people and other groups. Federal rules can affect Medicaid managed care and prior authorization.',
+  },
+  {
+    category: 'Insurance programs',
+    term: 'Medicare Advantage',
+    meaning:
+      'Private Medicare plans, also called Part C, that can be affected by CMS prior authorization, transparency, and payment rules.',
+  },
+  {
+    category: 'Price data',
+    term: 'Negotiated rate',
+    meaning:
+      'A price agreed to by a provider and payer. Transparency rules often require payer-specific negotiated prices.',
+  },
+  {
+    category: 'Patient protections',
+    term: 'No Surprises Act',
+    meaning:
+      'Federal surprise-billing protections enacted in CAA 2021 for many emergency, air ambulance, and certain facility-based out-of-network bills.',
+  },
+  {
+    category: 'Patient protections',
+    term: 'Notice and consent',
+    meaning:
+      'A No Surprises Act concept allowing some out-of-network billing only if a patient receives required notice and voluntarily consents, with exceptions.',
+  },
+  {
+    category: 'Medicare payment',
+    term: 'OPPS',
+    meaning:
+      'Outpatient Prospective Payment System. Medicare payment system for many hospital outpatient department services.',
+  },
+  {
+    category: 'Price data',
+    term: 'Out-of-network allowed amount',
+    meaning:
+      'A plan-reported amount allowed for out-of-network services, used in Transparency in Coverage public files.',
+  },
+  {
+    category: 'Drug costs',
+    term: 'Part B',
+    meaning:
+      'The part of Medicare covering physician services and many outpatient drugs administered in clinical settings.',
+  },
+  {
+    category: 'Drug costs',
+    term: 'Part D',
+    meaning:
+      'The Medicare prescription drug benefit, delivered through private plans and central to IRA drug negotiation and redesign.',
+  },
+  {
+    category: 'Data infrastructure',
+    term: 'Patient Access API',
+    meaning:
+      'A CMS interoperability requirement intended to let patients access certain claims, encounter, and clinical data through apps.',
+  },
+  {
+    category: 'Data infrastructure',
+    term: 'Payer-to-payer exchange',
+    meaning:
+      'Data exchange between health plans when a member changes coverage, intended to preserve useful claims and clinical history.',
+  },
+  {
+    category: 'Price data',
+    term: 'Payer-specific negotiated charge',
+    meaning:
+      'A hospital price transparency field showing the charge negotiated with a named payer and plan.',
+  },
+  {
+    category: 'Drug costs',
+    term: 'PBM',
+    meaning:
+      'Pharmacy Benefit Manager. A drug-benefit intermediary that negotiates rebates, manages formularies, and contracts with pharmacies and plans.',
+  },
+  {
+    category: 'Statutory anchor',
+    term: 'PHSA',
+    meaning:
+      'Public Health Service Act. A statutory vehicle for many federal health coverage and transparency requirements.',
+  },
+  {
+    category: 'Plan governance',
+    term: 'Plan fiduciary',
+    meaning:
+      'A person or entity with duties to prudently manage a health plan and act in the interest of plan participants under ERISA.',
+  },
+  {
+    category: 'Rulemaking',
+    term: 'Proposed rule',
+    meaning:
+      'A draft agency regulation published for public comment before the agency decides whether and how to finalize it.',
+  },
+  {
+    category: 'Data infrastructure',
+    term: 'Provider directory API',
+    meaning:
+      'An API for provider and network directory information, relevant because network status shapes patient costs.',
+  },
+  {
+    category: 'Patient protections',
+    term: 'QPA',
+    meaning:
+      'Qualifying Payment Amount. A No Surprises Act benchmark based generally on median contracted rates for an item or service.',
+  },
+  {
+    category: 'Insurance programs',
+    term: 'QHP',
+    meaning:
+      'Qualified Health Plan. A plan certified to be offered on an ACA marketplace.',
+  },
+  {
+    category: 'Drug costs',
+    term: 'Rebate',
+    meaning:
+      'A payment or concession often negotiated in drug-benefit contracts. Rebates can affect net drug costs and incentives.',
+  },
+  {
+    category: 'Rulemaking',
+    term: 'Rulemaking',
+    meaning:
+      'The agency process for creating, amending, or repealing regulations, often involving proposed rules, public comment, and final rules.',
+  },
+  {
+    category: 'Patient protections',
     term: 'RxDC',
     meaning:
       'Prescription Drug Data Collection reporting under the CAA, covering drug spending, premiums, rebates, and related health spending data.',
   },
   {
-    term: 'Gag clause',
+    category: 'Plan governance',
+    term: 'Self-insured plan',
     meaning:
-      'A contract term that blocks plans from accessing or sharing price, quality, or claims information. CAA rules prohibit these clauses in many health plan contracts.',
+      'An employer health plan where the employer bears claims risk instead of buying fully insured coverage from an insurer.',
+  },
+  {
+    category: 'Patient protections',
+    term: 'Self-pay',
+    meaning:
+      'A patient who pays directly or is treated as not using insurance for a service, often triggering good faith estimate rights.',
+  },
+  {
+    category: 'Care settings',
+    term: 'Shoppable service',
+    meaning:
+      'A service that can generally be scheduled in advance, such as imaging, labs, or planned procedures.',
+  },
+  {
+    category: 'Care settings',
+    term: 'Site of care',
+    meaning:
+      'The setting where care is delivered, such as a hospital outpatient department, physician office, imaging center, or ASC.',
+  },
+  {
+    category: 'Medicare payment',
+    term: 'Site-neutral payment',
+    meaning:
+      'A policy idea that similar services should be paid similarly across settings, such as hospital outpatient departments and physician offices.',
+  },
+  {
+    category: 'Drug costs',
+    term: 'Spread pricing',
+    meaning:
+      'A PBM arrangement where the amount charged to a plan is higher than the amount paid to the pharmacy, with the PBM retaining the spread.',
+  },
+  {
+    category: 'Research quality',
+    term: 'Standardization',
+    meaning:
+      'Making files, fields, definitions, and formats consistent enough to compare across hospitals, plans, services, and time.',
+  },
+  {
+    category: 'Price data',
+    term: 'Standard charge',
+    meaning:
+      'A hospital price transparency term for charges the hospital has established for items and services, including several required charge types.',
+  },
+  {
+    category: 'Price data',
+    term: 'Transparency in Coverage',
+    meaning:
+      'Federal rules requiring most health plans and issuers to publish certain price files and offer consumer cost-comparison information.',
+  },
+  {
+    category: 'Price data',
+    term: 'TiC',
+    meaning:
+      'Transparency in Coverage. Often used as shorthand for health plan price transparency rules and files.',
   },
 ]
 
+const glossaryMeaningByTerm = {
+  'Allowed amount':
+    'The amount a health plan recognizes as payable for a covered item or service under plan rules or a provider contract. It usually includes both the plan payment and the patient responsibility, so it is a better signal than a list charge but still not a complete estimate of out-of-pocket cost.',
+  AEOB:
+    'Advanced Explanation of Benefits. It is intended to give an insured patient pre-service information about whether a provider is in network, what the plan expects to pay, and what the patient may owe before scheduled care occurs.',
+  ACA:
+    'Affordable Care Act. For this tracker, the ACA matters not only as a coverage law but also as a transparency and accountability framework that created rate review, medical loss ratio rules, Summary of Benefits and Coverage, Open Payments, and authority that later supported hospital price transparency.',
+  API:
+    'Application Programming Interface. In health care, an API is a structured way for software systems to request and exchange data such as claims, coverage, clinical records, provider directory information, prior authorization status, or drug formulary details.',
+  ASC:
+    'Ambulatory Surgical Center. An ASC is a non-hospital outpatient facility where certain procedures can be performed without an overnight stay, making it an important site-of-care comparison point for planned surgeries and other scheduled services.',
+  'Balance bill':
+    'A bill sent to a patient for the difference between what a provider charges and what a health plan pays or allows. Balance billing becomes especially harmful when the patient had little control over provider choice, which is why the No Surprises Act targets many surprise out-of-network balance bills.',
+  'Billing code':
+    'A standardized code used to identify a medical service, procedure, item, diagnosis, drug, or billing category. Price transparency depends on billing codes because the same plain-language service can have multiple billable components and prices cannot be compared reliably without knowing which code is being priced.',
+  'CAA 2021':
+    'Consolidated Appropriations Act, 2021. In this policy area, CAA 2021 is the statute that carried the No Surprises Act and several commercial transparency provisions, including gag-clause prohibitions, RxDC reporting, good faith estimate rights, and federal IDR mechanics.',
+  'CAA 2026':
+    'Consolidated Appropriations Act, 2026. The tracker treats it as relevant because DOL has tied it to new ERISA provisions involving pharmacy benefit management services, making it part of the evolving PBM and employer-plan transparency story.',
+  'Cash price':
+    'The price a provider may accept from a patient paying directly rather than billing insurance. Cash prices can be useful for shopping, but they may apply only to a defined service package and may not include every related professional, facility, lab, imaging, anesthesia, or follow-up charge.',
+  CCIIO:
+    'Center for Consumer Information and Insurance Oversight. CCIIO is the CMS office responsible for many private health insurance, ACA marketplace, plan oversight, and consumer protection issues, so it is a key source for commercial insurance transparency policy.',
+  Charge:
+    'A provider list price before discounts, negotiated rates, benefit design, or payer rules are applied. Charges can reveal a provider billing baseline, but they often do not represent what a plan pays or what an insured patient ultimately owes.',
+  CMS:
+    'Centers for Medicare & Medicaid Services. CMS is the HHS agency that administers Medicare, works with states on Medicaid and CHIP, oversees many marketplace and private insurance rules, and implements major transparency policies such as Hospital Price Transparency, Transparency in Coverage, and No Surprises Act operations.',
+  'Civil monetary penalty':
+    'A financial penalty that an agency can impose when a regulated entity violates certain legal or regulatory requirements. In transparency policy, civil monetary penalties matter because they are one of the tools CMS and other agencies can use to push hospitals, plans, or other actors toward compliance.',
+  'Comment window':
+    'The public period after an agency publishes a proposed rule or request for information when stakeholders can submit written comments. Comment windows are important because agencies often use the record to revise definitions, timelines, file formats, enforcement approaches, and exceptions before finalizing policy.',
+  Completeness:
+    'A data-quality measure describing whether expected records, fields, providers, services, rates, and identifiers are present. A transparency file can be public but still incomplete if it omits important service lines, lacks provider detail, excludes relevant negotiated rates, or fails to include fields needed for comparison.',
+  'Congress.gov':
+    'The official federal website for congressional bills, resolutions, public laws, sponsors, cosponsors, committee activity, amendments, and legislative status. It is the best starting point for confirming whether a proposal is merely introduced, moving through committee, passed by one chamber, or enacted.',
+  'CPT/HCPCS':
+    'Common coding systems used to identify physician services, procedures, supplies, outpatient services, and other billable items. CPT and HCPCS codes are central to price comparison because they let researchers, plans, employers, and patients map a service description to the billed unit used in claims and transparency files.',
+  'CREATES Act':
+    'A 2019 law designed to reduce tactics that block generic and biosimilar competition by helping developers obtain product samples needed for approval work. It belongs in the cost-policy universe because it tries to lower prices through competition rather than direct price disclosure.',
+  'Cures Act':
+    'The 21st Century Cures Act. For this tracker, the Cures Act is relevant because it supports health data access, interoperability, APIs, and information-blocking rules that can help future cost tools combine claims, clinical, network, and coverage information.',
+  'Data quality':
+    'A broad term for whether transparency data is accurate, complete, current, standardized, comparable, and usable. Data quality is now a central policy issue because publication alone does not help consumers or purchasers if the files contain missing values, implausible rates, inconsistent formats, or ambiguous identifiers.',
+  'De-identified minimum and maximum negotiated charge':
+    'Hospital transparency fields showing the lowest and highest negotiated charges a hospital has across payers for an item or service without identifying the payer. These fields reveal price spread, but they are less actionable than payer-specific negotiated charges because the user cannot tell which plan received which rate.',
+  'Discounted cash price':
+    'The price a hospital makes available to a patient who pays cash or is treated as self-pay for a given item or service. It is one required hospital transparency charge type, but the real usefulness depends on whether the price is complete, current, and tied to a clearly defined service bundle.',
+  'DOL EBSA':
+    'Department of Labor Employee Benefits Security Administration. EBSA oversees many employer-sponsored benefit plan issues under ERISA, including fiduciary duties, service-provider compensation, gag-clause attestations, and PBM or claims-data transparency for group health plans.',
+  Enforcement:
+    'Agency activity that monitors compliance and responds to violations through audits, notices, corrective action plans, penalties, settlements, guidance, or public reporting. In price transparency, enforcement is what determines whether legal requirements become meaningful operating expectations.',
+  ERISA:
+    'Employee Retirement Income Security Act. ERISA governs many employer-sponsored benefit plans, including self-insured health plans, and gives DOL a central role in fiduciary duties, plan governance, service-provider compensation, claims-data access, and PBM transparency.',
+  'Executive order':
+    'A presidential directive to federal agencies about priorities, processes, or policy goals. An executive order can strongly shape price-transparency enforcement and rulemaking, but it usually needs agency action to create detailed obligations for hospitals, plans, or other regulated entities.',
+  'Fact sheet':
+    'A plain-language agency summary of a rule, proposal, enforcement action, report, or policy initiative. Fact sheets are useful for fast orientation, but the precise legal requirements usually sit in statutes, regulations, Federal Register text, subregulatory guidance, or enforcement documents.',
+  'Facility fee':
+    'A charge associated with the facility or site where care is delivered, separate from the professional fee charged by a clinician. Facility fees are central to site-of-care cost differences because a service delivered in a hospital-owned outpatient setting may generate additional facility billing.',
+  'Federal Register':
+    'The official daily publication for federal agency rules, proposed rules, notices, presidential documents, and requests for comment. It is the authoritative place to read proposed and final regulatory text, agency reasoning, effective dates, and comment deadlines.',
+  'Final rule':
+    'An agency regulation issued after the rulemaking process is complete. A final rule sets legally operative requirements according to its effective dates and compliance timelines, although later guidance, litigation, enforcement discretion, or new rulemaking can change implementation.',
+  FHIR:
+    'Fast Healthcare Interoperability Resources. FHIR is a modern standard for structuring and exchanging health data through APIs, and it is increasingly important for patient access, payer data exchange, prior authorization, provider directories, and app-based health tools.',
+  Formulary:
+    'A health plan or PBM list of covered prescription drugs, usually organized into tiers and rules that affect access and cost sharing. Formularies can determine whether a drug is preferred, requires prior authorization, has step therapy, or carries high patient cost exposure.',
+  FTC:
+    'Federal Trade Commission. The FTC matters for health care costs because it handles competition and consumer protection issues, including PBM practices, drug-market conduct, mergers, deceptive claims, and market behavior that can affect prices or access.',
+  'Gag clause':
+    'A contract term that prevents a plan, employer, or other purchaser from accessing, using, or sharing price, quality, or claims information. Federal gag-clause prohibitions are meant to stop vendors, providers, networks, or administrators from blocking the data needed for cost oversight.',
+  GFE:
+    'Good Faith Estimate. Under current federal surprise-billing rules, GFEs give uninsured or self-pay patients an estimate of expected charges before certain scheduled services, and they are part of the broader movement toward pre-service cost information.',
+  'Ghost rate':
+    'A rate appearing in a transparency file for a provider-service combination that may be implausible, inactive, duplicative, or unlikely to be used in real care. Ghost rates matter because they can inflate file size and distort analysis if researchers treat every posted rate as a practical market price.',
+  'Gross charge':
+    'A hospital list price before discounts, payer contracts, negotiated rates, or benefit rules are applied. Gross charges often exceed the amounts paid by insurers or patients, but they remain part of hospital transparency because they show the starting charge-master price.',
+  Guidance:
+    'Agency material that explains how the agency interprets, implements, or intends to enforce a statute or regulation. Guidance can be essential for operational compliance, but it is different from a statute enacted by Congress or a final rule adopted through rulemaking.',
+  'HIPAA Administrative Simplification':
+    'The HIPAA provisions that standardize certain health care transactions, identifiers, and administrative data exchange. In cost policy, this side of HIPAA matters for eligibility, claims, prior authorization, attachments, and other transactions that can make coverage and cost information move more efficiently.',
+  'HHS OIG':
+    'HHS Office of Inspector General. OIG audits, investigates, and evaluates HHS programs and agencies, so its reports can reveal whether CMS oversight, transparency enforcement, program integrity, or health care payment policies are working as intended.',
+  'Hospital outpatient department':
+    'A hospital-owned outpatient setting where patients receive services without inpatient admission. Hospital outpatient departments are important in cost policy because ownership and billing status can produce facility fees and payment levels that differ from independent physician offices or ASCs.',
+  IDR:
+    'Independent Dispute Resolution. Under the No Surprises Act, federal IDR is the process used for certain out-of-network payment disputes between plans and providers after the patient is removed from the middle of the billing fight.',
+  'Information blocking':
+    'A practice that is likely to interfere with lawful access, exchange, or use of electronic health information unless a recognized exception applies. Information-blocking policy matters because transparency and cost tools require usable data movement, not only a legal right to data in theory.',
+  'In-network rate':
+    'The price or payment amount negotiated between a health plan and an in-network provider for a covered item or service. It is often more relevant than a list charge for insured patients, but it still must be combined with benefit design to estimate out-of-pocket cost.',
+  'Inflation rebate':
+    'A policy requiring drug manufacturers to pay rebates to Medicare when certain drug prices rise faster than inflation. Inflation rebates are a cost-control mechanism because they change manufacturer incentives even if the rebate is not shown as a direct discount at the pharmacy counter.',
+  Interoperability:
+    'The ability of different health information systems to exchange, receive, interpret, and use data. In this policy area, interoperability matters because price, claims, clinical, network, authorization, and benefit data must connect before a consumer-facing cost tool can be truly useful.',
+  IRA:
+    'Inflation Reduction Act. For health costs, the IRA is important because it created Medicare drug price negotiation, inflation rebates, Part D redesign, insulin cost limits, and other changes that affect drug spending and beneficiary exposure.',
+  'Litigation signal':
+    'A lawsuit, court ruling, settlement, or legal development that could affect whether a policy is delayed, narrowed, expanded, or enforced. Litigation signals are tracked because health cost policies often continue to evolve after rulemaking through judicial review and compliance disputes.',
+  'Machine-readable file':
+    'A structured public data file designed for automated processing by computers rather than ordinary reading by patients. Hospital and payer machine-readable files are raw infrastructure for comparison tools, employer analysis, research, and enforcement, not usually the final consumer experience.',
+  'Maximum fair price':
+    'The negotiated price for a selected drug under the Medicare Drug Price Negotiation Program created by the IRA. The maximum fair price applies according to specific price applicability years and is the headline output of the federal negotiation process.',
+  Medicaid:
+    'A joint federal-state health coverage program for eligible low-income people, children, pregnant people, people with disabilities, and other groups. Medicaid cost and transparency policy can involve managed care, prior authorization, access rules, state variation, and CMS oversight.',
+  'Medicare Advantage':
+    'Private Medicare coverage, also called Part C, offered by plans that contract with CMS to provide Medicare benefits. Medicare Advantage matters here because prior authorization, network design, supplemental benefits, payment rules, and data exchange can affect access and costs.',
+  'Negotiated rate':
+    'A price agreed to by a provider and payer for an item or service, usually through a network contract. Negotiated rates are central to price transparency because they reveal market variation, but they do not by themselves show quality, total episode cost, or patient liability.',
+  'No Surprises Act':
+    'Federal surprise-billing protections enacted as part of CAA 2021. The law limits many emergency, air ambulance, and facility-based out-of-network bills, while creating notice-and-consent rules and a federal IDR process for eligible plan-provider payment disputes.',
+  'Notice and consent':
+    'A No Surprises Act process that may allow some out-of-network billing if the patient receives required notice and voluntarily consents before care. It is subject to important limits, including restrictions for emergencies and certain ancillary services where patients cannot realistically choose the clinician.',
+  OPPS:
+    'Outpatient Prospective Payment System. OPPS is the Medicare payment system for many hospital outpatient department services, and it is central to debates about facility fees, hospital outpatient spending, and site-neutral payment.',
+  'Out-of-network allowed amount':
+    'A plan-reported amount allowed for out-of-network services, used in Transparency in Coverage public files. It can help analysts understand plan payment patterns outside networks, but patient exposure also depends on balance-billing protections and cost-sharing rules.',
+  'Part B':
+    'The part of Medicare that covers physician services, outpatient care, durable medical equipment, preventive services, and many clinician-administered drugs. Part B is increasingly important to drug-pricing policy because selected Part B drugs can enter Medicare negotiation cycles.',
+  'Part D':
+    'The Medicare outpatient prescription drug benefit, delivered through private drug plans or Medicare Advantage drug plans. Part D is central to federal drug-cost policy because formularies, rebates, negotiation, beneficiary cost sharing, and IRA redesign all run through it.',
+  'Patient Access API':
+    'A CMS interoperability requirement designed to let patients access certain claims, encounter, and clinical information through third-party apps. It is relevant to cost tools because personalized claims and coverage context can improve estimates beyond generic posted prices.',
+  'Payer-to-payer exchange':
+    'A data exchange process between health plans when a member changes coverage. The goal is to preserve useful claims, encounter, and clinical history so patients and new plans do not lose context that can affect care management, coverage, and cost decisions.',
+  'Payer-specific negotiated charge':
+    'A hospital price transparency field showing the charge negotiated with a named payer and plan for an item or service. It is one of the most useful hospital price fields because it ties a specific rate to a specific payer relationship rather than showing only a range.',
+  PBM:
+    'Pharmacy Benefit Manager. PBMs administer drug benefits for plans and employers, negotiate rebates and fees, manage formularies and pharmacy networks, process claims, and can influence both net plan costs and patient cost sharing.',
+  PHSA:
+    'Public Health Service Act. PHSA is a statutory home for many federal health coverage and transparency requirements, often paired with parallel amendments to ERISA and the Internal Revenue Code so rules reach insurers and group health plans.',
+  'Plan fiduciary':
+    'A person or entity with legal duties to prudently manage a benefit plan and act in the interest of plan participants and beneficiaries. In health plans, fiduciary questions increasingly involve access to claims data, vendor fees, PBM compensation, network design, and plan spending oversight.',
+  'Proposed rule':
+    'A draft regulation published by an agency before it issues a final rule. Proposed rules explain the agency approach, ask for public comment, and signal future obligations, but they are not the final legal requirements unless and until adopted.',
+  'Provider directory API':
+    'An API that makes provider and network directory information available in a structured format. Provider directory data is crucial for cost transparency because network status often determines whether a service is covered at in-network rates or exposes the patient to higher costs.',
+  QPA:
+    'Qualifying Payment Amount. Under the No Surprises Act, the QPA is generally tied to median contracted rates for an item or service and is used in patient cost-sharing calculations and federal IDR disputes.',
+  QHP:
+    'Qualified Health Plan. A QHP is a plan certified to be sold on an ACA marketplace and subject to marketplace standards, including rules about benefits, networks, actuarial value, consumer information, and federal or state oversight.',
+  Rebate:
+    'A payment, discount, or concession often negotiated in prescription drug contracts among manufacturers, PBMs, plans, and other intermediaries. Rebates can reduce net costs for a plan or PBM while leaving list prices and patient cost sharing high depending on contract design.',
+  Rulemaking:
+    'The formal agency process for creating, changing, or repealing regulations. Rulemaking usually moves from proposal to public comment to final rule, and it is where broad statutory authority becomes operational details such as definitions, file formats, deadlines, and penalties.',
+  RxDC:
+    'Prescription Drug Data Collection reporting required under CAA 2021. RxDC reporting collects information from plans and issuers about prescription drug spending, premiums, rebates, health care spending, and other data used by regulators to understand cost trends.',
+  'Self-insured plan':
+    'An employer health plan where the employer bears the financial risk for claims rather than buying fully insured coverage from an insurer. Self-insured plans are central to employer cost policy because the sponsor has direct exposure to claims spending and stronger incentives to scrutinize vendors.',
+  'Self-pay':
+    'A patient payment status where the person pays directly or is treated as not using insurance for a service. Self-pay status can trigger good faith estimate rights and cash-price questions, but it may also affect whether spending counts toward insurance deductibles.',
+  'Shoppable service':
+    'A service that can generally be scheduled in advance, such as imaging, labs, colonoscopy, joint replacement, or other planned procedures. Shoppable services are the part of price transparency most likely to support comparison behavior because the patient may have time to choose among providers or settings.',
+  'Site of care':
+    'The physical and billing setting where care is delivered, such as a hospital outpatient department, physician office, ASC, imaging center, emergency department, or pharmacy. Site of care can change facility fees, negotiated rates, Medicare payment, and patient cost sharing for similar clinical services.',
+  'Site-neutral payment':
+    'A policy approach that would pay similar rates for similar services regardless of whether they are delivered in a hospital outpatient department, physician office, or other setting. The idea is to reduce payment differences driven by ownership or billing location rather than clinical complexity.',
+  'Spread pricing':
+    'A PBM payment arrangement where the PBM charges the plan more for a drug claim than it pays the pharmacy and keeps the difference. Spread pricing is a transparency issue because plan sponsors may not see the retained margin without detailed pharmacy claims and compensation reporting.',
+  Standardization:
+    'The process of making data fields, file layouts, definitions, codes, formats, and reporting requirements consistent across organizations. Standardization is what turns separate compliance files into comparable information that can support analytics, enforcement, purchaser leverage, and consumer tools.',
+  'Standard charge':
+    'A hospital price transparency term for charges the hospital has established for items and services. The term includes several required charge types, such as gross charge, discounted cash price, payer-specific negotiated charge, and de-identified minimum and maximum negotiated charges.',
+  'Transparency in Coverage':
+    'Federal rules requiring most group health plans and health insurance issuers to publish machine-readable price files and provide consumer cost-comparison information. TiC is the payer-side counterpart to hospital price transparency and is central to commercial insurance price data.',
+  TiC:
+    'Transparency in Coverage. The shorthand usually refers to the health plan price transparency rules, especially public machine-readable files for in-network negotiated rates and out-of-network allowed amounts plus consumer cost-comparison tool requirements.',
+}
+
+const glossaryContextByTerm = {
+  'Allowed amount':
+    'In practice, this is closer to the economic price than a gross charge, but it still may not equal the patient bill because deductibles, coinsurance, copays, and coverage rules come next.',
+  AEOB:
+    'In practice, AEOBs would connect provider estimates with plan benefits before care, which is why they matter for turning transparency into a usable shopping workflow.',
+  ACA:
+    'In practice, the ACA created several disclosure and accountability hooks that later transparency rules build on, including plan summaries, rate review, medical loss ratio rules, and hospital standard-charge authority.',
+  API:
+    'In practice, APIs are how cost tools can move beyond static files by pulling claims, benefits, directories, authorization status, or formulary data into an app.',
+  ASC:
+    'In practice, ASCs are important comparison points because many scheduled procedures can cost less outside hospital outpatient departments when quality and clinical appropriateness are similar.',
+  'Balance bill':
+    'In practice, surprise balance bills were a major target of federal reform because patients often could not choose every clinician involved in emergency or facility-based care.',
+  'Billing code':
+    'In practice, codes are the join key for price comparison. Without the right CPT, HCPCS, DRG, NDC, or revenue code, a published price may not map to the service a patient is actually seeking.',
+  'CAA 2021':
+    'In practice, CAA 2021 is the main modern statute tying together surprise-billing protections, commercial plan transparency, gag-clause bans, RxDC reporting, and good faith estimates.',
+  'CAA 2026':
+    'In practice, CAA 2026 matters because PBM and employer-plan transparency is moving from general concern toward more specific fiduciary and compensation disclosure duties.',
+  'Cash price':
+    'In practice, cash prices can sometimes beat insured out-of-pocket costs, but patients need to understand whether paying cash affects deductible credit, follow-up billing, or bundled services.',
+  CCIIO:
+    'In practice, CCIIO is a key office to watch for private insurance rules, marketplace policy, CAA implementation, and health plan transparency guidance.',
+  Charge:
+    'In practice, charges are useful as a disclosure baseline but can be misleading if treated as the expected price. Negotiated rates, cash prices, and allowed amounts are usually more actionable.',
+  CMS:
+    'In practice, CMS is the central federal agency for this tracker because it writes and enforces much of the hospital, plan, Medicare, Medicaid, and No Surprises implementation machinery.',
+  'Civil monetary penalty':
+    'In practice, penalties are one way agencies make transparency rules real. Their size, frequency, and publicity influence whether noncompliance feels cheaper than compliance.',
+  'Comment window':
+    'In practice, comment windows are where hospitals, plans, employers, patient advocates, vendors, and researchers can shape final rules before requirements lock in.',
+  Completeness:
+    'In practice, incomplete data can make a technically compliant file unusable. Missing providers, rates, codes, or service lines can distort comparisons and weaken purchaser leverage.',
+  'Congress.gov':
+    'In practice, Congress.gov is the source of truth for bill text and legislative movement, which helps separate introduced proposals from enacted policy.',
+  'CPT/HCPCS':
+    'In practice, these codes are essential for shopping and analysis because the same plain-English service can map to different billable items depending on setting, complexity, and bundled components.',
+  'CREATES Act':
+    'In practice, this is a drug-cost competition tool rather than a price-posting law. It matters because more generic or biosimilar competition can lower prices without a consumer shopping interface.',
+  'Cures Act':
+    'In practice, Cures Act policy is the data-access backbone for future tools that combine clinical, claims, coverage, network, and price information.',
+  'Data quality':
+    'In practice, data quality is now one of the main fights. Price files can exist and still fail if values are stale, inconsistent, implausible, missing, or impossible to compare.',
+  'De-identified minimum and maximum negotiated charge':
+    'In practice, these fields show the range of negotiated hospital prices without naming payers. They can reveal variation but are less useful than payer-specific rates for precise comparisons.',
+  'Discounted cash price':
+    'In practice, this is one of the most patient-facing hospital price fields, but it may not cover every professional, facility, lab, anesthesia, pathology, or follow-up charge.',
+  'DOL EBSA':
+    'In practice, EBSA is the federal office to watch for employer-plan transparency, ERISA fiduciary duties, gag-clause attestations, PBM compensation disclosure, and plan data access.',
+  Enforcement:
+    'In practice, enforcement determines whether transparency is a live accountability system or a quiet filing exercise. Watch audits, corrective action, penalties, settlements, and public reporting.',
+  ERISA:
+    'In practice, ERISA is the legal frame for many self-insured employer plans, which makes it central to claims-data access, fiduciary duties, PBM contracts, and plan sponsor cost control.',
+  'Executive order':
+    'In practice, an executive order can set agency priorities and deadlines, but it usually needs rulemaking, guidance, or enforcement action to change regulated-party obligations.',
+  'Fact sheet':
+    'In practice, fact sheets are helpful for fast reading, but the controlling detail usually lives in the statute, regulation, preamble, guidance, or enforcement document.',
+  'Facility fee':
+    'In practice, facility fees are a major reason the same service can cost more in a hospital-owned setting than in an independent office or clinic.',
+  'Federal Register':
+    'In practice, the Federal Register is where proposed rules, final rules, notices, comment deadlines, and official agency explanations appear.',
+  'Final rule':
+    'In practice, final rules turn policy proposals into binding requirements, subject to effective dates, compliance timelines, litigation, and later guidance.',
+  FHIR:
+    'In practice, FHIR is one of the standards that can let apps receive structured health data, which is necessary for personalized cost and coverage tools.',
+  Formulary:
+    'In practice, formularies shape whether a drug is covered, what tier it sits on, whether prior authorization applies, and what the patient pays at the pharmacy.',
+  FTC:
+    'In practice, FTC activity matters because health care cost policy is not only CMS rulemaking. Competition enforcement can affect PBMs, drug markets, provider consolidation, and deceptive practices.',
+  'Gag clause':
+    'In practice, gag clauses can stop employers from seeing the claims and price information they need to manage plan spending. CAA rules are meant to break that information lockup.',
+  GFE:
+    'In practice, GFEs matter most for uninsured and self-pay patients today, and they preview the broader idea of giving people expected costs before scheduled care.',
+  'Ghost rate':
+    'In practice, ghost rates can make transparency files look richer than they are. Analysts need to distinguish real provider-service relationships from rates that are unlikely to be used.',
+  'Gross charge':
+    'In practice, gross charges can anchor hospital charge masters but often overstate real payment. They are useful for context, not for predicting most insured patient costs.',
+  Guidance:
+    'In practice, guidance often explains how agencies expect regulated entities to comply, but it may not carry the same legal force as a statute or final rule.',
+  'HIPAA Administrative Simplification':
+    'In practice, this part of HIPAA supports standardized transactions for eligibility, claims, prior authorization, and other administrative data needed for lower-friction cost tools.',
+  'HHS OIG':
+    'In practice, OIG reports can reveal whether federal programs and enforcement systems are working, including gaps in CMS oversight or transparency compliance.',
+  'Hospital outpatient department':
+    'In practice, hospital outpatient departments are central to site-of-care debates because ownership and billing setting can change the facility component of a bill.',
+  IDR:
+    'In practice, IDR protects patients from being the payment battleground, but its volume, outcomes, and administrative costs can still influence premiums and network strategy.',
+  'Information blocking':
+    'In practice, information blocking rules matter because price transparency tools need data to flow. A right on paper is weaker if systems or business practices block access.',
+  'In-network rate':
+    'In practice, in-network rates are more relevant to commercially insured patients than list charges, but the patient share still depends on benefit design and accumulated spending.',
+  'Inflation rebate':
+    'In practice, inflation rebates are meant to discourage drug price increases above inflation in Medicare, affecting manufacturer incentives even when the patient never sees the rebate directly.',
+  Interoperability:
+    'In practice, interoperability is the difference between isolated records and connected workflows. Cost tools need data from plans, providers, pharmacies, directories, and authorization systems.',
+  IRA:
+    'In practice, the IRA is the clearest federal cost-reduction statute in this tracker because it changes Medicare drug pricing and beneficiary exposure, not just disclosure.',
+  'Litigation signal':
+    'In practice, litigation can pause, narrow, expand, or clarify policy. A rule can be final and still face years of court-shaped implementation.',
+  'Machine-readable file':
+    'In practice, MRFs are infrastructure for analysts and apps, not a patient shopping screen. The product challenge is translating them into clear comparisons.',
+  'Maximum fair price':
+    'In practice, maximum fair prices are the output of Medicare negotiation for selected drugs, with implementation staggered by price applicability year.',
+  Medicaid:
+    'In practice, Medicaid cost policy differs by state and delivery system, but federal CMS rules can still affect managed care, prior authorization, access, and transparency.',
+  'Medicare Advantage':
+    'In practice, Medicare Advantage plans are private plans inside Medicare, so CMS rules on prior authorization, networks, data exchange, and payment can affect patient costs and access.',
+  'Negotiated rate':
+    'In practice, negotiated rates show contractual prices between payers and providers. They are core to market comparison but do not automatically reveal quality or patient liability.',
+  'No Surprises Act':
+    'In practice, the NSA is a patient protection law first. It limits many surprise bills, then routes eligible payment fights into notice, consent, QPA, and IDR machinery.',
+  'Notice and consent':
+    'In practice, notice and consent is supposed to be a narrow exception, not a loophole. Emergency services and certain ancillary providers generally cannot use it to waive protections.',
+  OPPS:
+    'In practice, OPPS is central to hospital outpatient payment and site-of-care policy because Medicare rates can differ by setting even for similar services.',
+  'Out-of-network allowed amount':
+    'In practice, this field helps show what plans allow for out-of-network care, but patients need to know balance-billing protections and cost-sharing rules too.',
+  'Part B':
+    'In practice, Part B matters for drugs administered by clinicians, durable medical equipment, and outpatient services, including the newer reach of Medicare drug negotiation.',
+  'Part D':
+    'In practice, Part D is the retail prescription drug benefit where formularies, tiers, rebates, negotiation, and IRA redesign are especially visible.',
+  'Patient Access API':
+    'In practice, this API can help patients retrieve claims and encounter data through apps, which can support more personalized cost and coverage tools.',
+  'Payer-to-payer exchange':
+    'In practice, payer-to-payer exchange is meant to reduce data loss when people switch plans, helping preserve claims history and care context.',
+  'Payer-specific negotiated charge':
+    'In practice, this hospital field is powerful because it names the payer and plan tied to a negotiated charge, making comparison more concrete than de-identified ranges.',
+  PBM:
+    'In practice, PBMs influence drug costs through formulary placement, rebates, pharmacy networks, spread pricing, specialty pharmacy rules, and contract terms with plans.',
+  PHSA:
+    'In practice, PHSA is often amended alongside ERISA and the tax code so federal coverage rules reach insurers, group health plans, and individual market products.',
+  'Plan fiduciary':
+    'In practice, plan fiduciaries may need data to evaluate vendors, fees, rebates, networks, and claims spending. Transparency can become evidence for fiduciary oversight.',
+  'Proposed rule':
+    'In practice, proposed rules are where agencies show their intended approach and ask for public input. They are important signals but not final obligations.',
+  'Provider directory API':
+    'In practice, provider directory data helps determine network status, and network status is often the difference between predictable cost sharing and expensive surprises.',
+  QPA:
+    'In practice, the QPA is a key benchmark in No Surprises Act disputes and patient cost-sharing calculations, so its methodology has been heavily contested.',
+  QHP:
+    'In practice, QHP rules shape what marketplace plans must cover, disclose, and report, which matters for ACA consumers comparing coverage.',
+  Rebate:
+    'In practice, rebates can lower net plan or PBM costs while leaving list prices and patient cost sharing high, depending on benefit design and pass-through terms.',
+  Rulemaking:
+    'In practice, rulemaking is where broad statutory authority becomes operational detail, including definitions, file formats, enforcement dates, exemptions, and penalties.',
+  RxDC:
+    'In practice, RxDC reporting gives regulators a structured view of drug spending, premiums, rebates, and health spending trends across plans and issuers.',
+  'Self-insured plan':
+    'In practice, self-insured employers have more direct exposure to claims costs, which makes transparency data, PBM contracts, and fiduciary oversight especially important.',
+  'Self-pay':
+    'In practice, self-pay status can trigger different estimate rights and prices, but patients need to know whether choosing self-pay affects insurance credit or later billing.',
+  'Shoppable service':
+    'In practice, shoppable services are where price transparency can be most actionable because patients often have time to compare settings, providers, and bundled costs.',
+  'Site of care':
+    'In practice, site of care can change facility fees, Medicare payment rates, commercial negotiated rates, and patient out-of-pocket exposure.',
+  'Site-neutral payment':
+    'In practice, site-neutral policy tries to reduce payment differences that come from ownership or setting rather than clinical need.',
+  'Spread pricing':
+    'In practice, spread pricing is a PBM revenue model that can be hard for plan sponsors to see without detailed pharmacy claims and compensation disclosure.',
+  Standardization:
+    'In practice, standardization is what turns thousands of separate compliance files into comparable data that researchers, employers, regulators, and patients can use.',
+  'Standard charge':
+    'In practice, standard charge is an umbrella hospital transparency term, so readers need to identify which charge type is being discussed before drawing conclusions.',
+  'Transparency in Coverage':
+    'In practice, TiC is the commercial-plan counterpart to hospital price transparency, but its files are massive and require technical translation before most users benefit.',
+  TiC:
+    'In practice, TiC shorthand usually points to payer machine-readable files, in-network rates, out-of-network allowed amounts, and consumer cost-comparison requirements.',
+}
+
+export const glossaryTerms = glossaryTermBase.map((term) => ({
+  ...term,
+  meaning: glossaryMeaningByTerm[term.term] || term.meaning,
+  context: glossaryContextByTerm[term.term],
+}))
+
 export const implementationTimeline = [
   {
-    year: '2010',
+    year: 'Mar 23, 2010',
     title: 'ACA transparency foundation',
     detail:
-      'Hospital standard-charge disclosure, medical loss ratio, rate review, SBC, and Open Payments become part of the broader transparency ecosystem.',
+      'The Patient Protection and Affordable Care Act is signed into law, creating the foundation for rate review, MLR, SBC, Open Payments, and later hospital standard-charge disclosure.',
   },
   {
-    year: '2019',
+    year: 'Jun 24, 2019',
     title: 'Executive price transparency push',
     detail:
-      'EO 13877 directs agencies to improve price and quality transparency, setting up the hospital and plan transparency rules.',
+      'EO 13877 directs agencies to improve price and quality transparency, setting up the hospital and health plan transparency rules.',
   },
   {
-    year: '2021',
+    year: 'Dec 27, 2020',
+    title: 'CAA 2021 becomes law',
+    detail:
+      'The Consolidated Appropriations Act, 2021 becomes Public Law 116-260, carrying the No Surprises Act and broader commercial transparency provisions.',
+  },
+  {
+    year: 'Jan 1, 2021',
     title: 'Hospital price files go live',
     detail:
       'Hospitals must post machine-readable standard charges and consumer-friendly displays of shoppable services.',
   },
   {
-    year: '2022',
-    title: 'No Surprises Act and TiC files',
+    year: 'Jan 1, 2022',
+    title: 'No Surprises Act protections begin',
     detail:
-      'Surprise billing protections begin, federal IDR launches, and most plans begin posting Transparency in Coverage machine-readable files.',
+      'Federal protections begin for many surprise out-of-network bills, along with good faith estimate rights for uninsured and self-pay patients.',
   },
   {
-    year: '2023-2024',
-    title: 'Consumer plan tools expand',
+    year: 'Jul 1, 2022',
+    title: 'Transparency in Coverage files begin',
     detail:
-      'Plan price comparison requirements begin with 500 items and services, then expand to all covered items and services.',
+      'Most group health plans and health insurance issuers begin posting public machine-readable files for covered items and services.',
   },
   {
-    year: '2025',
-    title: 'Actual prices and usability come forward',
+    year: 'Aug 16, 2022',
+    title: 'Inflation Reduction Act signed',
     detail:
-      'EO 14221 directs agencies to focus on actual prices, standardization, comparability, and stronger enforcement.',
+      'The IRA becomes law, launching Medicare drug negotiation, Part D redesign, insulin affordability provisions, and inflation rebates.',
   },
   {
-    year: '2026',
-    title: 'Enforcement and PBM transparency intensify',
+    year: 'Jan 1, 2023',
+    title: 'Plan cost tools start with 500 services',
     detail:
-      'CMS enforces updated hospital requirements, DOL pursues PBM fee disclosure, IDR volume remains a major operating story, and Medicare negotiated drug prices begin taking effect.',
+      'Transparency in Coverage consumer price-comparison requirements begin for an initial set of 500 items and services.',
+  },
+  {
+    year: 'Jan 1, 2024',
+    title: 'Plan cost tools expand',
+    detail:
+      'Transparency in Coverage consumer tool requirements expand to all covered items and services.',
+  },
+  {
+    year: 'Feb 25, 2025',
+    title: 'EO 14221 renews price transparency push',
+    detail:
+      'The White House directs Treasury, Labor, and HHS to focus on actual prices, standardization, comparability, and stronger enforcement.',
+  },
+  {
+    year: 'Jan 1, 2026',
+    title: 'First Medicare negotiated drug prices apply',
+    detail:
+      'The first IRA negotiated Medicare drug prices begin applying for the initial price applicability year 2026.',
+  },
+  {
+    year: 'Apr 1, 2026',
+    title: 'Updated hospital transparency enforcement begins',
+    detail:
+      'CMS begins enforcement of new and updated Hospital Price Transparency requirements finalized in the CY 2026 OPPS and ASC final rule.',
   },
 ]

@@ -1,4 +1,4 @@
-# Federal Healthcare Transparency Tracker
+# State of Care Costs
 
 Working Vue app for tracking federal healthcare transparency and cost policy.
 
@@ -14,6 +14,16 @@ The first product shape is a federal-only policy desk with three top-level tabs:
 npm install
 npm run dev
 ```
+
+## GitHub Pages
+
+This app is configured for GitHub Pages at:
+
+```txt
+https://chansooligans.github.io/state-of-care-costs/
+```
+
+The Pages workflow builds with `GITHUB_PAGES=true`, which tells Vite to use the `/state-of-care-costs/` asset base for project-page hosting.
 
 ## Scope
 
