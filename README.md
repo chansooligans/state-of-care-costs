@@ -23,7 +23,17 @@ This app is configured for GitHub Pages at:
 https://chansooligans.github.io/state-of-care-costs/
 ```
 
-The Pages workflow builds with `GITHUB_PAGES=true`, which tells Vite to use the `/state-of-care-costs/` asset base for project-page hosting.
+The deployed static build lives on the `gh-pages` branch. Build with
+`GITHUB_PAGES=true` so Vite uses the `/state-of-care-costs/` asset base for
+project-page hosting.
+
+In the GitHub repository settings, set Pages to publish from:
+
+```txt
+Source: Deploy from a branch
+Branch: gh-pages
+Folder: /(root)
+```
 
 ## Scope
 
