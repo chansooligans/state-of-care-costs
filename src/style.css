@@ -1575,7 +1575,7 @@ h1 {
   max-width: calc(100vw - 28px);
   max-height: none;
   overflow: visible;
-  border-top-width: 0;
+  border-top-width: 3px;
   box-shadow: 0 8px 24px rgba(44, 38, 32, 0.14);
 }
 
