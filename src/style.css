@@ -14,11 +14,15 @@
   --blue: #486979;
   --white: #ffffff;
   --shadow: none;
+  --font-serif: Iowan Old Style, Palatino Linotype, Book Antiqua, Palatino, Georgia, serif;
+  --font-sans: Gill Sans, Avenir Next, Avenir, Helvetica Neue, Helvetica, sans-serif;
+  --font-mono: SFMono-Regular, Menlo, Monaco, Consolas, monospace;
 
   color: var(--ink);
   background: var(--bg);
-  font-family: Avenir Next, Avenir, Helvetica Neue, Helvetica, sans-serif;
+  font-family: var(--font-sans);
   font-synthesis: none;
+  line-height: 1.5;
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
@@ -62,9 +66,9 @@ dd {
 }
 
 .policy-desk {
-  width: min(1180px, calc(100% - 32px));
+  width: min(1120px, calc(100% - 40px));
   margin: 0 auto;
-  padding: 24px 0 48px;
+  padding: 34px 0 64px;
 }
 
 .masthead,
@@ -84,7 +88,7 @@ dd {
 .masthead {
   display: grid;
   grid-template-columns: minmax(0, 1fr) 310px;
-  min-height: 310px;
+  min-height: 340px;
   border-top: 4px solid var(--accent);
   box-shadow: var(--shadow);
 }
@@ -93,7 +97,7 @@ dd {
   display: flex;
   flex-direction: column;
   justify-content: end;
-  padding: 34px 36px;
+  padding: 44px 48px;
   border-right: 1px solid var(--line-strong);
 }
 
@@ -108,32 +112,32 @@ dd {
 h1,
 h2,
 h3 {
-  font-family: Georgia, Cambria, Times New Roman, serif;
+  font-family: var(--font-serif);
   letter-spacing: 0;
 }
 
 h1 {
   max-width: 820px;
-  margin-top: 12px;
-  font-size: 4rem;
-  line-height: 0.98;
-  font-weight: 700;
+  margin-top: 14px;
+  font-size: 4.25rem;
+  line-height: 1;
+  font-weight: 600;
 }
 
 .masthead-dek {
   max-width: 720px;
-  margin-top: 18px;
+  margin-top: 22px;
   color: var(--muted);
-  font-size: 1.02rem;
-  line-height: 1.56;
+  font-size: 1.06rem;
+  line-height: 1.68;
 }
 
 .scope-brief {
   display: flex;
   flex-direction: column;
   justify-content: start;
-  gap: 24px;
-  padding: 24px;
+  gap: 28px;
+  padding: 30px;
   background: var(--surface);
 }
 
@@ -145,7 +149,7 @@ h1 {
   border: 1px solid var(--accent);
   background: var(--paper);
   color: var(--accent);
-  font-family: Georgia, Cambria, Times New Roman, serif;
+  font-family: var(--font-serif);
   font-size: 1.35rem;
   font-weight: 900;
   line-height: 0.96;
@@ -162,7 +166,7 @@ h1 {
 .scope-brief div strong {
   display: block;
   margin-top: 6px;
-  font-family: Georgia, Cambria, Times New Roman, serif;
+  font-family: var(--font-serif);
   font-size: 1.65rem;
   line-height: 1.04;
 }
@@ -183,26 +187,26 @@ h1 {
 .glossary-board,
 .reference-section,
 .revenue-cycle-guide {
-  margin-top: 14px;
+  margin-top: 18px;
 }
 
 .top-tabs {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
-  margin-top: 10px;
+  margin-top: 14px;
   border: 1px solid var(--line-strong);
   background: var(--paper);
 }
 
 .top-tabs button {
   display: flex;
-  min-height: 84px;
+  min-height: 96px;
   flex-direction: column;
   justify-content: space-between;
   border: 0;
   border-right: 1px solid var(--line-strong);
   background: transparent;
-  padding: 16px 18px;
+  padding: 20px 22px;
   color: var(--ink);
   text-align: left;
 }
@@ -218,7 +222,7 @@ h1 {
 }
 
 .top-tabs strong {
-  font-family: Avenir Next, Avenir, Helvetica Neue, Helvetica, sans-serif;
+  font-family: var(--font-sans);
   font-size: 0.96rem;
   font-weight: 900;
   line-height: 1.1;
@@ -240,7 +244,7 @@ h1 {
   display: flex;
   justify-content: flex-end;
   min-height: 34px;
-  margin-bottom: 10px;
+  margin-bottom: 14px;
 }
 
 .corner-link {
@@ -275,15 +279,15 @@ h1 {
 .revenue-cycle-hero {
   display: grid;
   grid-template-columns: minmax(0, 1fr) 250px;
-  gap: 20px;
+  gap: 28px;
   border-bottom: 1px solid var(--line-strong);
   background: var(--surface);
-  padding: 34px 36px;
+  padding: 44px 48px;
 }
 
 .revenue-cycle-hero h2 {
-  margin-top: 8px;
-  font-size: 3.35rem;
+  margin-top: 10px;
+  font-size: 3.55rem;
   line-height: 1.02;
 }
 
@@ -311,7 +315,7 @@ h1 {
 .cycle-page-note strong {
   display: block;
   margin-top: 8px;
-  font-family: Georgia, Cambria, Times New Roman, serif;
+  font-family: var(--font-serif);
   font-size: 1.45rem;
   line-height: 1.05;
 }
@@ -319,9 +323,9 @@ h1 {
 .revenue-cycle-thesis {
   display: grid;
   grid-template-columns: 170px minmax(0, 1fr);
-  gap: 24px;
+  gap: 30px;
   border-bottom: 1px solid var(--line);
-  padding: 22px 30px;
+  padding: 28px 36px;
 }
 
 .revenue-cycle-thesis strong {
@@ -333,7 +337,7 @@ h1 {
 
 .revenue-cycle-thesis p {
   max-width: 920px;
-  font-family: Georgia, Cambria, Times New Roman, serif;
+  font-family: var(--font-serif);
   font-size: 1.2rem;
   line-height: 1.38;
 }
@@ -363,12 +367,12 @@ h1 {
   border-right: 1px solid var(--line);
   padding: 22px 18px;
   color: var(--accent);
-  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+  font-family: var(--font-mono);
   font-weight: 900;
 }
 
 .cycle-step-body {
-  padding: 20px 24px;
+  padding: 24px 30px;
 }
 
 .step-actor {
@@ -387,9 +391,9 @@ h1 {
 
 .cycle-step-body > p:not(.step-actor) {
   max-width: 850px;
-  margin-top: 12px;
+  margin-top: 14px;
   color: var(--muted);
-  line-height: 1.58;
+  line-height: 1.66;
 }
 
 .cycle-artifact-row {
@@ -411,10 +415,10 @@ h1 {
 
 .cycle-friction {
   max-width: 850px;
-  margin-top: 16px;
+  margin-top: 20px;
   border-left: 4px solid var(--accent);
   background: var(--surface);
-  padding: 12px 14px;
+  padding: 15px 18px;
 }
 
 .cycle-friction strong {
@@ -427,7 +431,7 @@ h1 {
 .cycle-friction p {
   margin-top: 6px;
   color: var(--ink);
-  font-family: Georgia, Cambria, Times New Roman, serif;
+  font-family: var(--font-serif);
   line-height: 1.4;
 }
 
@@ -438,7 +442,7 @@ h1 {
 
 .cycle-sidebars section {
   border-bottom: 1px solid var(--line-strong);
-  padding: 20px;
+  padding: 24px;
 }
 
 .cycle-sidebars section:last-child {
@@ -486,9 +490,9 @@ h1 {
 .sectioned-layout {
   display: grid;
   grid-template-columns: 190px minmax(0, 1fr);
-  gap: 14px;
+  gap: 18px;
   align-items: start;
-  margin-top: 14px;
+  margin-top: 18px;
 }
 
 .section-nav {
@@ -553,9 +557,9 @@ h1 {
 .section-heading {
   display: grid;
   grid-template-columns: minmax(0, 1fr) auto;
-  gap: 20px;
+  gap: 28px;
   align-items: end;
-  padding: 22px 24px;
+  padding: 28px 32px;
   border-bottom: 1px solid var(--line-strong);
 }
 
@@ -565,8 +569,8 @@ h1 {
 
 .section-heading h2,
 .source-copy h2 {
-  margin-top: 6px;
-  font-size: 1.85rem;
+  margin-top: 8px;
+  font-size: 2rem;
   line-height: 1.05;
 }
 
@@ -605,7 +609,7 @@ h1 {
   display: flex;
   gap: 8px;
   align-items: baseline;
-  padding: 10px 24px;
+  padding: 12px 32px;
   border-bottom: 1px solid var(--line);
   background: var(--surface);
 }
@@ -628,8 +632,8 @@ h1 {
 }
 
 .lead-story {
-  min-height: 500px;
-  padding: 28px 30px;
+  min-height: 530px;
+  padding: 38px 42px;
   border-right: 1px solid var(--line-strong);
   background: var(--paper);
 }
@@ -644,25 +648,25 @@ h1 {
 
 .lead-story h3 {
   max-width: 760px;
-  margin-top: 12px;
-  font-size: 3.15rem;
-  line-height: 0.98;
+  margin-top: 14px;
+  font-size: 3.35rem;
+  line-height: 1.02;
 }
 
 .lead-story > p:not(.lead-kicker) {
   max-width: 740px;
-  margin-top: 18px;
+  margin-top: 22px;
   color: var(--muted);
   font-size: 1.12rem;
-  line-height: 1.55;
+  line-height: 1.66;
 }
 
 .evidence-box {
   max-width: 720px;
-  margin-top: 24px;
+  margin-top: 30px;
   border-top: 4px solid var(--accent);
   border-bottom: 1px solid var(--line-strong);
-  padding: 16px 0 18px;
+  padding: 18px 0 22px;
 }
 
 .evidence-box strong {
@@ -675,7 +679,7 @@ h1 {
 .evidence-box p {
   margin-top: 8px;
   color: var(--ink);
-  font-family: Georgia, Cambria, Times New Roman, serif;
+  font-family: var(--font-serif);
   font-size: 1.25rem;
   line-height: 1.32;
 }
@@ -697,7 +701,7 @@ h1 {
 
 .rail-heading,
 .briefing-list-heading {
-  padding: 18px 20px;
+  padding: 22px 24px;
   border-bottom: 1px solid var(--line-strong);
 }
 
@@ -709,7 +713,7 @@ h1 {
 }
 
 .brief-rail article {
-  padding: 18px 20px 20px;
+  padding: 22px 24px 24px;
   border-bottom: 1px solid var(--line);
 }
 
@@ -727,7 +731,7 @@ h1 {
 
 .brief-rail h4 {
   margin: 8px 0 0;
-  font-family: Georgia, Cambria, Times New Roman, serif;
+  font-family: var(--font-serif);
   font-size: 1.14rem;
   line-height: 1.15;
 }
@@ -781,7 +785,7 @@ h1 {
 }
 
 .news-date {
-  padding: 20px 22px;
+  padding: 24px 26px;
   border-right: 1px solid var(--line);
   background: var(--surface);
 }
@@ -793,7 +797,7 @@ h1 {
 
 .news-date span {
   color: var(--muted);
-  font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  font-family: var(--font-mono);
   font-size: 0.86rem;
 }
 
@@ -805,7 +809,7 @@ h1 {
 }
 
 .news-body {
-  padding: 20px 24px 22px;
+  padding: 24px 30px 28px;
 }
 
 .news-meta,
@@ -837,9 +841,9 @@ h1 {
 
 .news-body p {
   max-width: 920px;
-  margin-top: 10px;
+  margin-top: 12px;
   color: var(--muted);
-  line-height: 1.52;
+  line-height: 1.62;
 }
 
 .news-body .why {
@@ -905,7 +909,7 @@ h1 {
 }
 
 .legislation-sidebar-copy {
-  padding: 24px;
+  padding: 30px;
   border-bottom: 1px solid var(--line-strong);
 }
 
@@ -932,11 +936,11 @@ h1 {
   grid-template-columns: 1fr auto;
   gap: 8px 14px;
   align-items: start;
-  min-height: 66px;
+  min-height: 76px;
   border: 0;
   border-bottom: 1px solid var(--line);
   background: transparent;
-  padding: 16px 18px;
+  padding: 20px 22px;
   text-align: left;
 }
 
@@ -977,7 +981,7 @@ h1 {
   min-height: 100%;
   flex-direction: column;
   justify-content: space-between;
-  padding: 30px;
+  padding: 38px 42px;
   background: var(--white);
 }
 
@@ -990,19 +994,19 @@ h1 {
 
 .legislation-detail p {
   max-width: 880px;
-  margin-top: 18px;
+  margin-top: 20px;
   color: var(--muted);
   font-size: 1rem;
-  line-height: 1.58;
+  line-height: 1.68;
 }
 
 .deep-explainer {
   max-width: 920px;
-  margin-top: 22px;
+  margin-top: 28px;
   border: 1px solid var(--line);
   border-left: 5px solid var(--accent);
   background: var(--surface);
-  padding: 18px 20px;
+  padding: 22px 24px;
 }
 
 .deep-explainer h4,
@@ -1020,15 +1024,15 @@ h1 {
 .detail-columns {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 12px;
-  margin-top: 22px;
+  gap: 16px;
+  margin-top: 26px;
 }
 
 .detail-columns div,
 .fundamental-grid article {
   border: 1px solid var(--line);
   background: var(--surface);
-  padding: 18px;
+  padding: 22px;
 }
 
 .detail-columns h4 {
@@ -1047,10 +1051,10 @@ h1 {
 
 .provision-list {
   max-width: 920px;
-  margin-top: 18px;
+  margin-top: 22px;
   border: 1px solid var(--line);
   background: var(--surface);
-  padding: 18px 20px;
+  padding: 22px 24px;
 }
 
 .provision-list ul {
@@ -1100,7 +1104,7 @@ h1 {
 }
 
 .fundamental-grid article {
-  min-height: 210px;
+  min-height: 230px;
   border-top: 0;
   border-left: 0;
 }
@@ -1132,9 +1136,9 @@ h1 {
 }
 
 .pane-heading {
-  min-height: 118px;
+  min-height: 128px;
   border-bottom: 1px solid var(--line-strong);
-  padding: 20px 22px;
+  padding: 24px 26px;
   background: var(--surface);
 }
 
@@ -1155,8 +1159,8 @@ h1 {
 
 .reference-pane .timeline-list li {
   grid-template-columns: 96px minmax(0, 1fr);
-  gap: 18px;
-  padding: 20px 24px;
+  gap: 22px;
+  padding: 24px 28px;
 }
 
 .term-category {
@@ -1187,7 +1191,7 @@ h1 {
   border: 0;
   border-bottom: 1px solid var(--line);
   background: transparent;
-  padding: 16px 20px;
+  padding: 20px 24px;
   color: var(--ink);
   text-align: left;
 }
@@ -1199,7 +1203,7 @@ h1 {
 
 .reference-index strong {
   display: block;
-  font-family: Georgia, Cambria, Times New Roman, serif;
+  font-family: var(--font-serif);
   font-size: 1.14rem;
   line-height: 1.15;
 }
@@ -1225,7 +1229,7 @@ h1 {
   position: sticky;
   top: 16px;
   align-self: start;
-  padding: 24px;
+  padding: 30px;
   background: var(--surface);
 }
 
@@ -1260,7 +1264,7 @@ h1 {
 .floating-term .term-context p {
   margin-top: 8px;
   color: var(--ink);
-  font-family: Georgia, Cambria, Times New Roman, serif;
+  font-family: var(--font-serif);
   font-size: 1.05rem;
   line-height: 1.38;
 }
@@ -1287,7 +1291,7 @@ h1 {
 .mechanism-detail-list dd {
   margin-top: 7px;
   color: var(--ink);
-  font-family: Georgia, Cambria, Times New Roman, serif;
+  font-family: var(--font-serif);
   font-size: 1.05rem;
   line-height: 1.36;
 }
@@ -1347,9 +1351,9 @@ h1 {
 .timeline-list li {
   display: grid;
   grid-template-columns: 160px minmax(0, 1fr);
-  gap: 24px;
+  gap: 30px;
   border-bottom: 1px solid var(--line);
-  padding: 20px 24px;
+  padding: 24px 30px;
 }
 
 .timeline-list li:last-child {
@@ -1358,7 +1362,7 @@ h1 {
 
 .timeline-list span {
   color: var(--accent);
-  font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  font-family: var(--font-mono);
   font-size: 0.92rem;
   font-weight: 900;
 }
@@ -1377,7 +1381,7 @@ h1 {
 
 .timeline-list.standalone li {
   grid-template-columns: 150px minmax(0, 1fr);
-  padding: 24px;
+  padding: 28px 32px;
 }
 
 .source-board {
@@ -1388,7 +1392,7 @@ h1 {
 }
 
 .source-copy {
-  padding: 24px;
+  padding: 30px;
   border-right: 1px solid var(--line-strong);
   border-top: 4px solid var(--accent);
   background: var(--surface-soft);
@@ -1413,10 +1417,10 @@ h1 {
 .source-group-heading {
   display: grid;
   grid-template-columns: 220px minmax(0, 1fr);
-  gap: 20px;
+  gap: 26px;
   align-items: baseline;
   border-bottom: 1px solid var(--line);
-  padding: 18px 22px;
+  padding: 22px 26px;
   background: var(--surface);
 }
 
@@ -1435,10 +1439,10 @@ h1 {
 .source-directory a {
   display: grid;
   grid-template-columns: 132px minmax(170px, 0.34fr) minmax(0, 1fr);
-  gap: 18px;
+  gap: 22px;
   align-items: baseline;
   border-bottom: 1px solid var(--line);
-  padding: 16px 22px;
+  padding: 20px 26px;
   text-decoration: none;
 }
 
@@ -1508,7 +1512,7 @@ h1 {
 
 .debug-panel-header h2 {
   margin-top: 5px;
-  font-family: Avenir Next, Avenir, Helvetica Neue, Helvetica, sans-serif;
+  font-family: var(--font-sans);
   font-size: 1rem;
   font-weight: 900;
   line-height: 1;
@@ -1545,7 +1549,7 @@ h1 {
   background: var(--surface);
   padding: 16px;
   color: var(--ink);
-  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+  font-family: var(--font-mono);
   font-size: 0.78rem;
   line-height: 1.5;
   white-space: pre-wrap;
@@ -1577,7 +1581,7 @@ h1 {
   justify-content: space-between;
   gap: 16px;
   border-bottom: 1px solid var(--line);
-  padding: 14px 16px 12px;
+  padding: 16px 18px 14px;
   background: var(--surface);
 }
 
@@ -1631,7 +1635,7 @@ h1 {
   display: grid;
   gap: 7px;
   border-bottom: 1px solid var(--line);
-  padding: 14px 16px;
+  padding: 16px 18px;
 }
 
 .floating-glossary-search span {
@@ -1653,7 +1657,7 @@ h1 {
 }
 
 .floating-term {
-  padding: 16px;
+  padding: 18px;
 }
 
 .floating-term h3 {
@@ -1712,7 +1716,7 @@ h1 {
 }
 
 .floating-glossary-results strong {
-  font-family: Georgia, Cambria, Times New Roman, serif;
+  font-family: var(--font-serif);
   font-size: 0.98rem;
   line-height: 1.12;
 }
