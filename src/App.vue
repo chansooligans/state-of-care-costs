@@ -211,7 +211,8 @@ const debugSnapshot = computed(() => ({
     referenceSearch: glossarySearch.value,
     referenceMatches: filteredGlossaryTerms.value.length,
     floatingSearch: floatingGlossarySearch.value,
-    floatingMatches: floatingGlossaryResults.value.length,
+    floatingMatches: floatingGlossaryMatches.value.length,
+    floatingVisibleResults: floatingGlossaryResults.value.length,
     floatingMinimized: isFloatingGlossaryMinimized.value,
   },
   visibility: {
@@ -237,6 +238,40 @@ const termMatchesQuery = (term, query) =>
     String(value || '').toLowerCase().includes(query),
   )
 
+const glossaryMatchPriority = (term, query) => {
+  const termName = term.term.toLowerCase()
+  const category = term.category.toLowerCase()
+
+  if (termName === query) {
+    return 0
+  }
+
+  if (termName.startsWith(query)) {
+    return 1
+  }
+
+  if (termName.includes(query)) {
+    return 2
+  }
+
+  if (category.includes(query)) {
+    return 3
+  }
+
+  return 4
+}
+
+const glossaryMatchesForQuery = (query) =>
+  glossaryTerms
+    .map((term, index) => ({
+      index,
+      priority: glossaryMatchPriority(term, query),
+      term,
+    }))
+    .filter(({ term }) => termMatchesQuery(term, query))
+    .sort((a, b) => a.priority - b.priority || a.index - b.index)
+    .map(({ term }) => term)
+
 const filteredGlossaryTerms = computed(() => {
   const query = glossarySearch.value.trim().toLowerCase()
 
@@ -244,7 +279,7 @@ const filteredGlossaryTerms = computed(() => {
     return glossaryTerms
   }
 
-  return glossaryTerms.filter((term) => termMatchesQuery(term, query))
+  return glossaryMatchesForQuery(query)
 })
 
 const selectedGlossaryTerm = computed(() =>
@@ -253,27 +288,31 @@ const selectedGlossaryTerm = computed(() =>
   glossaryTerms.find((item) => item.term === activeGlossaryTerm.value),
 )
 
-const floatingGlossaryResults = computed(() => {
+const floatingGlossaryMatches = computed(() => {
   const query = floatingGlossarySearch.value.trim().toLowerCase()
 
   if (!query) {
     return []
   }
 
-  return glossaryTerms.filter((term) => termMatchesQuery(term, query)).slice(0, 6)
+  return glossaryMatchesForQuery(query)
 })
 
+const floatingGlossaryResults = computed(() => floatingGlossaryMatches.value.slice(0, 6))
+
 const selectedFloatingGlossaryTerm = computed(() => {
-  const query = floatingGlossarySearch.value.trim()
+  const query = floatingGlossarySearch.value.trim().toLowerCase()
 
   if (query) {
-    return (
-      floatingGlossaryResults.value.find(
-        (term) => term.term === activeFloatingGlossaryTerm.value,
-      ) ||
-      floatingGlossaryResults.value[0] ||
-      null
+    const activeTerm = glossaryTerms.find(
+      (term) => term.term === activeFloatingGlossaryTerm.value,
     )
+
+    if (activeTerm?.term.toLowerCase() === query) {
+      return activeTerm
+    }
+
+    return floatingGlossaryMatches.value[0] || null
   }
 
   return (
