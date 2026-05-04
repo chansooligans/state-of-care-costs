@@ -24,8 +24,12 @@ const floatingGlossarySearch = ref('')
 const activeFloatingGlossaryTerm = ref(glossaryTerms[0].term)
 const isFloatingGlossaryMinimized = ref(true)
 const showSectionNav = ref(false)
+const showDebugPanel = ref(false)
+const debugCopyStatus = ref('')
 const sectionNavRevealPoint = 360
 let sectionNavScrollFrame = null
+let debugKeyBuffer = ''
+let debugCopyTimer = null
 
 const routeFromHash = () =>
   typeof window !== 'undefined' && window.location.hash === '#/revenue-cycle'
@@ -178,6 +182,56 @@ const selectedMechanism = computed(() =>
   conceptMap.find((item) => item.title === activeMechanismTitle.value),
 )
 
+const debugSnapshot = computed(() => ({
+  app: 'State of Care Costs',
+  route: currentRoute.value,
+  location:
+    typeof window === 'undefined'
+      ? null
+      : {
+          path: window.location.pathname,
+          hash: window.location.hash,
+          href: window.location.href,
+        },
+  activeTab: isRevenueCyclePage.value ? null : activeTab.value,
+  filters: {
+    lane: activeLane.value,
+    sourceType: activeSourceType.value,
+    matchingNews: filteredNews.value.length,
+    leadNewsId: leadNews.value?.id || null,
+  },
+  selections: {
+    legislationId: activeLegislationId.value,
+    legislation: selectedLegislation.value?.shortName || null,
+    mechanism: activeMechanismTitle.value,
+    referenceGlossaryTerm: activeGlossaryTerm.value,
+    floatingGlossaryTerm: activeFloatingGlossaryTerm.value,
+  },
+  glossary: {
+    referenceSearch: glossarySearch.value,
+    referenceMatches: filteredGlossaryTerms.value.length,
+    floatingSearch: floatingGlossarySearch.value,
+    floatingMatches: floatingGlossaryResults.value.length,
+    floatingMinimized: isFloatingGlossaryMinimized.value,
+  },
+  visibility: {
+    sectionNav: showSectionNav.value,
+    debugPanel: showDebugPanel.value,
+  },
+  counts: {
+    news: newsItems.length,
+    legislation: legislationItems.length,
+    fundamentals: fundamentals.length,
+    mechanisms: conceptMap.length,
+    timeline: implementationTimeline.length,
+    glossary: glossaryTerms.length,
+    revenueCycleSteps: revenueCycleGuide.steps.length,
+  },
+  generatedAt: new Date().toISOString(),
+}))
+
+const formattedDebugSnapshot = computed(() => JSON.stringify(debugSnapshot.value, null, 2))
+
 const termMatchesQuery = (term, query) =>
   [term.term, term.category, term.meaning, term.context].some((value) =>
     String(value || '').toLowerCase().includes(query),
@@ -243,6 +297,34 @@ const clearFloatingGlossarySearch = () => {
   floatingGlossarySearch.value = ''
 }
 
+const closeDebugPanel = () => {
+  showDebugPanel.value = false
+  debugCopyStatus.value = ''
+}
+
+const handleEscape = () => {
+  closeDebugPanel()
+  clearFloatingGlossarySearch()
+}
+
+const copyDebugSnapshot = async () => {
+  try {
+    await navigator.clipboard.writeText(formattedDebugSnapshot.value)
+    debugCopyStatus.value = 'Copied'
+  } catch {
+    debugCopyStatus.value = 'Copy failed'
+  }
+
+  if (debugCopyTimer) {
+    window.clearTimeout(debugCopyTimer)
+  }
+
+  debugCopyTimer = window.setTimeout(() => {
+    debugCopyStatus.value = ''
+    debugCopyTimer = null
+  }, 1600)
+}
+
 const updateSectionNavVisibility = () => {
   if (sectionNavScrollFrame) {
     return
@@ -265,19 +347,50 @@ const syncRouteFromHash = () => {
   }
 }
 
+const handleDebugKeydown = (event) => {
+  const target = event.target
+  const isTextEntry =
+    target instanceof HTMLElement &&
+    (target.isContentEditable || ['INPUT', 'TEXTAREA', 'SELECT'].includes(target.tagName))
+
+  if (event.defaultPrevented || event.metaKey || event.ctrlKey || event.altKey || isTextEntry) {
+    return
+  }
+
+  if (event.key !== '?') {
+    debugKeyBuffer = ''
+    return
+  }
+
+  debugKeyBuffer = `${debugKeyBuffer}?`.slice(-3)
+
+  if (debugKeyBuffer === '???') {
+    showDebugPanel.value = !showDebugPanel.value
+    debugCopyStatus.value = ''
+    debugKeyBuffer = ''
+    event.preventDefault()
+  }
+}
+
 onMounted(() => {
   syncRouteFromHash()
   updateSectionNavVisibility()
   window.addEventListener('hashchange', syncRouteFromHash)
   window.addEventListener('scroll', updateSectionNavVisibility, { passive: true })
+  window.addEventListener('keydown', handleDebugKeydown)
 })
 
 onBeforeUnmount(() => {
   window.removeEventListener('hashchange', syncRouteFromHash)
   window.removeEventListener('scroll', updateSectionNavVisibility)
+  window.removeEventListener('keydown', handleDebugKeydown)
 
   if (sectionNavScrollFrame) {
     window.cancelAnimationFrame(sectionNavScrollFrame)
+  }
+
+  if (debugCopyTimer) {
+    window.clearTimeout(debugCopyTimer)
   }
 })
 </script>
@@ -286,7 +399,7 @@ onBeforeUnmount(() => {
   <main
     class="policy-desk"
     :class="{ 'revenue-page-desk': isRevenueCyclePage }"
-    @keyup.escape.window="clearFloatingGlossarySearch"
+    @keyup.escape.window="handleEscape"
   >
     <nav class="corner-nav" aria-label="Related pages">
       <a v-if="!isRevenueCyclePage" class="corner-link" href="#/revenue-cycle">
@@ -891,6 +1004,28 @@ onBeforeUnmount(() => {
         </div>
       </div>
     </section>
+
+    <aside
+      v-if="showDebugPanel"
+      class="debug-panel"
+      aria-labelledby="debug-panel-title"
+      role="dialog"
+    >
+      <div class="debug-panel-header">
+        <div>
+          <span>Internal</span>
+          <h2 id="debug-panel-title">App state</h2>
+        </div>
+        <div class="debug-panel-actions">
+          <span aria-live="polite">{{ debugCopyStatus }}</span>
+          <button type="button" @click="copyDebugSnapshot">Copy JSON</button>
+          <button type="button" aria-label="Close debug panel" @click="closeDebugPanel">
+            Close
+          </button>
+        </div>
+      </div>
+      <pre tabindex="0">{{ formattedDebugSnapshot }}</pre>
+    </aside>
 
     <aside
       class="floating-glossary"

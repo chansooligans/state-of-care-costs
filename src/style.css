@@ -1473,6 +1473,82 @@ h1 {
   line-height: 1.45;
 }
 
+.debug-panel {
+  position: fixed;
+  top: 18px;
+  left: 18px;
+  z-index: 45;
+  width: min(580px, calc(100vw - 36px));
+  max-height: calc(100svh - 36px);
+  overflow: auto;
+  border: 1px solid var(--line-strong);
+  border-top: 6px solid var(--red);
+  background: var(--paper);
+  box-shadow: 0 22px 70px rgba(17, 17, 17, 0.24);
+}
+
+.debug-panel-header {
+  display: flex;
+  align-items: start;
+  justify-content: space-between;
+  gap: 16px;
+  border-bottom: 1px solid var(--line-strong);
+  background: var(--ink);
+  padding: 14px 16px;
+  color: var(--white);
+}
+
+.debug-panel-header span {
+  color: rgba(255, 255, 255, 0.68);
+  font-size: 0.7rem;
+  font-weight: 900;
+  text-transform: uppercase;
+}
+
+.debug-panel-header h2 {
+  margin-top: 5px;
+  font-family: Avenir Next, Avenir, Helvetica Neue, Helvetica, sans-serif;
+  font-size: 1rem;
+  font-weight: 900;
+  line-height: 1;
+  text-transform: uppercase;
+}
+
+.debug-panel-actions {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  gap: 8px;
+}
+
+.debug-panel-actions button {
+  border: 1px solid rgba(255, 255, 255, 0.7);
+  background: transparent;
+  padding: 7px 9px;
+  color: var(--white);
+  font-size: 0.72rem;
+  font-weight: 900;
+  text-transform: uppercase;
+}
+
+.debug-panel-actions button:hover {
+  background: var(--white);
+  color: var(--ink);
+}
+
+.debug-panel pre {
+  margin: 0;
+  max-height: calc(100svh - 126px);
+  overflow: auto;
+  background: var(--surface);
+  padding: 16px;
+  color: var(--ink);
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+  font-size: 0.78rem;
+  line-height: 1.5;
+  white-space: pre-wrap;
+}
+
 .floating-glossary {
   position: fixed;
   right: 18px;
@@ -1901,6 +1977,26 @@ input:focus-visible {
     bottom: 10px;
     width: min(360px, calc(100vw - 20px));
     max-height: 50svh;
+  }
+
+  .debug-panel {
+    top: 10px;
+    left: 10px;
+    width: calc(100vw - 20px);
+    max-height: calc(100svh - 20px);
+  }
+
+  .debug-panel-header {
+    display: grid;
+    gap: 12px;
+  }
+
+  .debug-panel-actions {
+    justify-content: flex-start;
+  }
+
+  .debug-panel pre {
+    max-height: calc(100svh - 160px);
   }
 
   .floating-glossary-header,
