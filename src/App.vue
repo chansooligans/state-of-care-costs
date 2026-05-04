@@ -19,7 +19,6 @@ const activeSourceType = ref('All')
 const activeLegislationId = ref(legislationItems[0].id)
 const activeMechanismTitle = ref(conceptMap[0].title)
 const activeGlossaryTerm = ref(glossaryTerms[0].term)
-const showRevenueCycleGuide = ref(false)
 const glossarySearch = ref('')
 const floatingGlossarySearch = ref('')
 const activeFloatingGlossaryTerm = ref(glossaryTerms[0].term)
@@ -27,6 +26,14 @@ const isFloatingGlossaryMinimized = ref(true)
 const showSectionNav = ref(false)
 const sectionNavRevealPoint = 360
 let sectionNavScrollFrame = null
+
+const routeFromHash = () =>
+  typeof window !== 'undefined' && window.location.hash === '#/revenue-cycle'
+    ? 'revenue-cycle'
+    : 'home'
+
+const currentRoute = ref(routeFromHash())
+const isRevenueCyclePage = computed(() => currentRoute.value === 'revenue-cycle')
 
 const escapeRegExp = (value) => value.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')
 
@@ -247,12 +254,26 @@ const updateSectionNavVisibility = () => {
   })
 }
 
+const syncRouteFromHash = () => {
+  const previousRoute = currentRoute.value
+  currentRoute.value = routeFromHash()
+
+  if (previousRoute !== currentRoute.value) {
+    window.requestAnimationFrame(() => {
+      window.scrollTo({ top: 0, behavior: 'auto' })
+    })
+  }
+}
+
 onMounted(() => {
+  syncRouteFromHash()
   updateSectionNavVisibility()
+  window.addEventListener('hashchange', syncRouteFromHash)
   window.addEventListener('scroll', updateSectionNavVisibility, { passive: true })
 })
 
 onBeforeUnmount(() => {
+  window.removeEventListener('hashchange', syncRouteFromHash)
   window.removeEventListener('scroll', updateSectionNavVisibility)
 
   if (sectionNavScrollFrame) {
@@ -262,8 +283,19 @@ onBeforeUnmount(() => {
 </script>
 
 <template>
-  <main class="policy-desk" @keyup.escape.window="clearFloatingGlossarySearch">
-    <section class="masthead" aria-labelledby="page-title">
+  <main
+    class="policy-desk"
+    :class="{ 'revenue-page-desk': isRevenueCyclePage }"
+    @keyup.escape.window="clearFloatingGlossarySearch"
+  >
+    <nav class="corner-nav" aria-label="Related pages">
+      <a v-if="!isRevenueCyclePage" class="corner-link" href="#/revenue-cycle">
+        Revenue cycle guide
+      </a>
+      <a v-else class="corner-link" href="#/">State of Care Costs</a>
+    </nav>
+
+    <section v-if="!isRevenueCyclePage" class="masthead" aria-labelledby="page-title">
       <div class="masthead-copy">
         <p class="eyebrow">Federal scope only</p>
         <h1 id="page-title">State of Care Costs</h1>
@@ -272,17 +304,6 @@ onBeforeUnmount(() => {
           movement on pricing data, patient billing protections, drug costs,
           commercial plan transparency, and the statutes behind them.
         </p>
-        <div class="desk-actions">
-          <button
-            type="button"
-            class="text-command"
-            :aria-expanded="showRevenueCycleGuide"
-            aria-controls="revenue-cycle-guide"
-            @click="showRevenueCycleGuide = !showRevenueCycleGuide"
-          >
-            {{ showRevenueCycleGuide ? 'Hide revenue cycle guide' : 'Open revenue cycle guide' }}
-          </button>
-        </div>
       </div>
 
       <div class="scope-brief" aria-label="Tracker scope">
@@ -299,7 +320,7 @@ onBeforeUnmount(() => {
       </div>
     </section>
 
-    <nav class="top-tabs" aria-label="Tracker sections">
+    <nav v-if="!isRevenueCyclePage" class="top-tabs" aria-label="Tracker sections">
       <button
         v-for="tab in tabs"
         :key="tab.id"
@@ -313,9 +334,9 @@ onBeforeUnmount(() => {
     </nav>
 
     <section
-      v-if="showRevenueCycleGuide"
+      v-if="isRevenueCyclePage"
       id="revenue-cycle-guide"
-      class="revenue-cycle-guide"
+      class="revenue-cycle-guide revenue-cycle-page"
       aria-labelledby="revenue-cycle-title"
     >
       <div class="revenue-cycle-hero">
@@ -326,13 +347,10 @@ onBeforeUnmount(() => {
             <GlossaryText :text="revenueCycleGuide.deck" @define="openGlossaryPopup" />
           </p>
         </div>
-        <button
-          type="button"
-          aria-label="Close revenue cycle guide"
-          @click="showRevenueCycleGuide = false"
-        >
-          x
-        </button>
+        <aside class="cycle-page-note" aria-label="Guide scope">
+          <span>11-step path</span>
+          <strong>Patient search to patient bill</strong>
+        </aside>
       </div>
 
       <div class="revenue-cycle-thesis">
@@ -396,7 +414,11 @@ onBeforeUnmount(() => {
       </div>
     </section>
 
-    <section v-if="activeTab === 'watch'" class="tab-panel" aria-label="Latest federal watch">
+    <section
+      v-if="!isRevenueCyclePage && activeTab === 'watch'"
+      class="tab-panel"
+      aria-label="Latest federal watch"
+    >
       <section class="news-board" aria-labelledby="news-title">
         <div class="section-heading">
           <div>
@@ -532,7 +554,7 @@ onBeforeUnmount(() => {
     </section>
 
     <section
-      v-if="activeTab === 'learn'"
+      v-if="!isRevenueCyclePage && activeTab === 'learn'"
       class="tab-panel policy-library"
       aria-label="Policy library"
     >
@@ -677,7 +699,11 @@ onBeforeUnmount(() => {
       </section>
     </section>
 
-    <section v-if="activeTab === 'reference'" class="tab-panel" aria-label="Reference">
+    <section
+      v-if="!isRevenueCyclePage && activeTab === 'reference'"
+      class="tab-panel"
+      aria-label="Reference"
+    >
       <div class="sectioned-layout">
         <aside
           class="section-nav"

@@ -125,29 +125,6 @@ h1 {
   line-height: 1.56;
 }
 
-.desk-actions {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 10px;
-  margin-top: 24px;
-}
-
-.text-command {
-  border: 1px solid var(--line-strong);
-  background: var(--paper);
-  padding: 10px 12px;
-  color: var(--ink);
-  font-size: 0.82rem;
-  font-weight: 900;
-  text-align: left;
-  text-transform: uppercase;
-}
-
-.text-command:hover {
-  background: var(--red);
-  color: var(--white);
-}
-
 .scope-brief {
   display: flex;
   flex-direction: column;
@@ -254,22 +231,53 @@ h1 {
   color: rgba(255, 253, 247, 0.72);
 }
 
+.corner-nav {
+  display: flex;
+  justify-content: flex-end;
+  min-height: 34px;
+  margin-bottom: 10px;
+}
+
+.corner-link {
+  display: inline-flex;
+  align-items: center;
+  border: 1px solid var(--line-strong);
+  background: var(--paper);
+  padding: 9px 11px;
+  color: var(--ink);
+  font-size: 0.78rem;
+  font-weight: 900;
+  line-height: 1;
+  text-decoration: none;
+  text-transform: uppercase;
+}
+
+.corner-link:hover {
+  background: var(--red);
+  color: var(--white);
+}
+
 .revenue-cycle-guide {
   background: var(--paper);
 }
 
+.revenue-cycle-page {
+  margin-top: 0;
+  border-top: 8px solid var(--red);
+}
+
 .revenue-cycle-hero {
   display: grid;
-  grid-template-columns: minmax(0, 1fr) auto;
+  grid-template-columns: minmax(0, 1fr) 250px;
   gap: 20px;
   border-bottom: 1px solid var(--line-strong);
   background: #faf7ef;
-  padding: 26px 30px;
+  padding: 34px 36px;
 }
 
 .revenue-cycle-hero h2 {
   margin-top: 8px;
-  font-size: 2.35rem;
+  font-size: 3.35rem;
   line-height: 1.02;
 }
 
@@ -280,23 +288,26 @@ h1 {
   line-height: 1.55;
 }
 
-.revenue-cycle-hero > button {
-  display: grid;
-  width: 36px;
-  height: 36px;
-  place-items: center;
-  border: 1px solid var(--line-strong);
+.cycle-page-note {
+  align-self: start;
+  border-left: 1px solid var(--line-strong);
   background: var(--paper);
-  color: var(--ink);
-  font-size: 1rem;
+  padding: 18px;
+}
+
+.cycle-page-note span {
+  color: var(--red);
+  font-size: 0.72rem;
   font-weight: 900;
-  line-height: 1;
   text-transform: uppercase;
 }
 
-.revenue-cycle-hero > button:hover {
-  background: var(--red);
-  color: var(--white);
+.cycle-page-note strong {
+  display: block;
+  margin-top: 8px;
+  font-family: Georgia, Cambria, Times New Roman, serif;
+  font-size: 1.45rem;
+  line-height: 1.05;
 }
 
 .revenue-cycle-thesis {
@@ -1657,6 +1668,10 @@ input:focus-visible {
     grid-template-columns: 1fr;
   }
 
+  .corner-nav {
+    margin-bottom: 8px;
+  }
+
   .section-nav {
     position: static;
     display: flex;
@@ -1786,6 +1801,11 @@ input:focus-visible {
     border-top: 1px solid var(--line-strong);
   }
 
+  .cycle-page-note {
+    border-left: 0;
+    border-top: 1px solid var(--line-strong);
+  }
+
 }
 
 @media (max-width: 560px) {
@@ -1809,6 +1829,7 @@ input:focus-visible {
   .top-tabs button,
   .revenue-cycle-hero,
   .revenue-cycle-thesis,
+  .cycle-page-note,
   .cycle-step-body,
   .cycle-sidebars section {
     padding: 20px;
@@ -1828,7 +1849,7 @@ input:focus-visible {
   }
 
   .revenue-cycle-hero h2 {
-    font-size: 1.9rem;
+    font-size: 2.15rem;
   }
 
   .revenue-cycle-thesis p {
